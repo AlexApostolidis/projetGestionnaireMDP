@@ -18,5 +18,18 @@ def readKey():
     with open('C:/Users/alexa/OneDrive/Bureau/data_private.pem', 'rb') as file:
         private_key = rsa.PrivateKey.load_pkcs1(file.read())
 
+    return public_key, private_key
 
-readKey()
+def cryptMessage(message):
+
+    keys = readKey()
+    public_key = keys[0]
+    crypt_message = rsa.encrypt(message.encode(), public_key)
+    return crypt_message
+
+def decryptMessage(message):
+
+    keys = readKey()
+    private_key = keys[1]
+    decrypt_message = rsa.decrypt(message, private_key)
+    return decrypt_message

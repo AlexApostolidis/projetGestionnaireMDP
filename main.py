@@ -5,6 +5,7 @@ from tkinter import *
 import classe
 import json
 import random_passWord
+import crypto
 
 
 if __name__ == '__main__':
@@ -30,8 +31,12 @@ if __name__ == '__main__':
                 passWord = input('Voulez vous un mot de passe généré automatiquement ? oui/non ')
                 if passWord == "non":
                     passWord = input('Entrez votre mot de passe: ')
-                else : passWord = random_passWord.mot_de_passe()
-                wallet.logs(site, id, passWord)
+                    passWord = crypto.cryptMessage(passWord)
+                else:
+                    passWord = random_passWord.mot_de_passe()
+                    passWord = crypto.cryptMessage(passWord)
+
+                wallet.logs(site, id, str(passWord))
                 wallet.affichage()
 
             case "supprimer":
