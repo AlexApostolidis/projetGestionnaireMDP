@@ -13,5 +13,3 @@ def mot_de_passe():
 
     passWord = "".join(random.sample(Use_for, length_to_pass))
     return passWord
-
-print(mot_de_passe())

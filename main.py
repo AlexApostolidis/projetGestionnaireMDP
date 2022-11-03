@@ -31,11 +31,22 @@ if __name__ == '__main__':
                 if passWord == "non":
                     passWord = input('entrez votre mot de passe: ')
                 else : passWord = random_passWord.mot_de_passe()
-                wallet.passWords(site, id, passWord)
+                wallet.logs(site, id, passWord)
                 print(wallet)
 
             case "supprimer":
-                pass
+                supprimer = input('quelle mot de passe voulez vous supprimer ? ')
+                wallet.supprimer(supprimer)
+                print(wallet)
+                break
+
+            case "modifier":
+                modifier = input('quel mot de passe voulez vous modifier ? ')
+                for i in wallet._passWords:
+                    if i['site'] == modifier:
+                        nouveau_mot_de_passe = input('entrez le nouveau mot de passe: ')
+                        wallet.nouveau(modifier, nouveau_mot_de_passe)
+                        print(wallet)
 
             case "stop":
                 condition = False

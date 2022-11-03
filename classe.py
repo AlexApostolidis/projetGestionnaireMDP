@@ -9,11 +9,23 @@ class Wallet:
         self._passWords = []
 
    
-    def passWords(self, new_site, new_identify, new_passWord):
+    def logs(self, new_site, new_identify, new_passWord):
         self._passWords.append({'site':new_site, 'id' : new_identify, 'passWord':new_passWord})
 
     def __str__(self):
         return str(self._passWords)
+
+    def nouveau(self,site, new_passWord):
+         for i in self._passWords:
+            if i['site'] == site:
+                i['passWord'] = new_passWord
+
+    
+    def supprimer(self, site):
+        for i in self._passWords:
+            if i['site'] == site:
+                self._passWords.remove(i)
+        
 
 
 
