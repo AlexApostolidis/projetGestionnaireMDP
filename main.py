@@ -1,7 +1,61 @@
-#! /usr/bin/env python3
+#immport
+
+import tkinter
+from tkinter import *
+import classe
+import json
+import random_passWord
+
 
 if __name__ == '__main__':
 
-    print('ok')
+   
+    wallet = classe.Wallet()
+    with open ('data.json') as read:
+        lectur = json.load(read)
+    
+    for i in lectur:
+        wallet._passWords.append(i)
 
-    print('hello world')
+
+
+    condition = True
+    while condition:
+        question = input('entrez votre demande: ')
+        match question :
+
+            case "nouveau":
+                site = input('entrez le site: ')
+                id = input('entrez votre identifiant: ')
+                passWord = input('voulez vous un mot de passe généré automatiquement ? ')
+                if passWord == "non":
+                    passWord = input('entrez votre mot de passe: ')
+                else : passWord = random_passWord.mot_de_passe()
+                wallet.passWords(site, id, passWord)
+                print(wallet)
+
+            case "supprimer":
+                pass
+
+            case "stop":
+                condition = False
+
+
+
+    with open('data.json', 'w') as file:
+        json.dump(wallet._passWords, file)
+        
+
+    
+# #screen
+#     screen = tkinter.Tk()
+#     screen.geometry('1280x720')
+#     screen.title("Gestionnaire de mot de passe")
+
+
+
+
+#     #affichage écran
+#     essai = Label(text="test", )
+#     essai.pack()
+#     screen.mainloop()   #empêche de fermer la fenêtre
