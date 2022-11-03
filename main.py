@@ -21,35 +21,40 @@ if __name__ == '__main__':
 
     condition = True
     while condition:
-        question = input('entrez votre demande: ')
+        question = input('Bienvenue dans votre gestionnaire de mot de passe ! \nQue voulez vous faire ? nouveau/supprimer/modifier/afficher/stop: ')
         match question :
 
             case "nouveau":
-                site = input('entrez le site: ')
-                id = input('entrez votre identifiant: ')
-                passWord = input('voulez vous un mot de passe généré automatiquement ? ')
+                site = input('Entrez un nouveau site: ')
+                id = input('Entrez votre identifiant: ')
+                passWord = input('Voulez vous un mot de passe généré automatiquement ? oui/non ')
                 if passWord == "non":
-                    passWord = input('entrez votre mot de passe: ')
+                    passWord = input('Entrez votre mot de passe: ')
                 else : passWord = random_passWord.mot_de_passe()
                 wallet.logs(site, id, passWord)
-                print(wallet)
+                wallet.affichage()
 
             case "supprimer":
-                supprimer = input('quelle mot de passe voulez vous supprimer ? ')
+                supprimer = input('Quelle mot de passe voulez vous supprimer ? Entrez le site en question ')
                 wallet.supprimer(supprimer)
-                print(wallet)
-                break
+                wallet.affichage()
 
             case "modifier":
-                modifier = input('quel mot de passe voulez vous modifier ? ')
+                modifier = input('Quel mot de passe voulez vous modifier ? Entrez le site en question ')
                 for i in wallet._passWords:
                     if i['site'] == modifier:
-                        nouveau_mot_de_passe = input('entrez le nouveau mot de passe: ')
+                        nouveau_mot_de_passe = input('Voulez vous un mot de passe généré automatiquement ? oui/non ')
+                        if nouveau_mot_de_passe == "non":
+                            nouveau_mot_de_passe = input('entrez le nouveau mot de passe: ')
+                        else : nouveau_mot_de_passe = random_passWord.mot_de_passe()
                         wallet.nouveau(modifier, nouveau_mot_de_passe)
-                        print(wallet)
+                        wallet.affichage()
 
             case "stop":
                 condition = False
+
+            case "afficher":
+                wallet.affichage()
 
 
 
@@ -58,15 +63,3 @@ if __name__ == '__main__':
         
 
     
-# #screen
-#     screen = tkinter.Tk()
-#     screen.geometry('1280x720')
-#     screen.title("Gestionnaire de mot de passe")
-
-
-
-
-#     #affichage écran
-#     essai = Label(text="test", )
-#     essai.pack()
-#     screen.mainloop()   #empêche de fermer la fenêtre

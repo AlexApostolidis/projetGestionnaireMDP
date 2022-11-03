@@ -27,6 +27,10 @@ class Wallet:
                 self._passWords.remove(i)
         
 
+    def affichage(self):
+        for i in self._passWords:
+            print("\n- " + i['site'] + "| identifiant: " + i['id'] + " | mot de passe: " + i['passWord'] + " |\n")
+
 
 
 
