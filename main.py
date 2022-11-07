@@ -1,12 +1,10 @@
 #immport
-
-import tkinter
-from tkinter import *
 import classe
 import json
 import random_passWord
 
 
+#MAIN
 if __name__ == '__main__':
 
    
@@ -18,10 +16,10 @@ if __name__ == '__main__':
         wallet._passWords.append(i)
 
 
-
+    print("Bienvenue dans votre gestionnaire de mot de passe ! \n")
     condition = True
     while condition:
-        question = input('Bienvenue dans votre gestionnaire de mot de passe ! \nQue voulez vous faire ? nouveau/supprimer/modifier/afficher/stop: ')
+        question = input('Que voulez vous faire ? \nTaper "nouveau" pour pouvoir ajouter un mot de passe\nTaper "supprimer" pour supprimer un mot de passe\nTaper "modifier" pour modifier un mot de passe \nTaper "afficher" pour afficher un mot de passe \nTaper "enregistrer" pour enregistrer et fermer le programme \n=>')
         match question :
 
             case "nouveau":
@@ -50,7 +48,7 @@ if __name__ == '__main__':
                         wallet.nouveau(modifier, nouveau_mot_de_passe)
                         wallet.affichage()
 
-            case "stop":
+            case "enregistrer":
                 condition = False
 
             case "afficher":
