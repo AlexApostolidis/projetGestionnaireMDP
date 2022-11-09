@@ -1,4 +1,3 @@
-#immport
 import classe
 import random_passWord
 import logIn
@@ -62,7 +61,3 @@ if __name__ == '__main__':
 
                 case "fin":
                     condition = False
-
-        
-
-    
