@@ -8,7 +8,7 @@ import logIn
 #MAIN
 if __name__ == '__main__':
 
-    print("Bienvenue dans votre gestionnaire de mot de passe ! \n")
+    print("Bienvenue dans votre gestionnaire de mot de passe ! \n Connectez vous au programme :)\n")
     username = input("Nom d'utilisateur: ")
     connexionPassword = input("Mot de passe: ")
     connexionAuProgramme = logIn.connexion(username, connexionPassword) 
