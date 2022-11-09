@@ -19,17 +19,19 @@ class Wallet:
          for i in self._passWords:
             if i['site'] == site:
                 i['passWord'] = new_passWord
+                
 
     
     def supprimer(self, site):
         for i in self._passWords:
             if i['site'] == site:
                 self._passWords.remove(i)
+                
         
 
     def affichage(self):
         for i in self._passWords:
-            print("\n- " + i['site'] + "| identifiant: " + i['id'] + " | mot de passe: " + i['passWord'] + " |\n")
+            print("\n- " + i['site'] + " | identifiant: " + i['id'] + " | mot de passe: " + i['passWord'] + " \n")
 
 
 
