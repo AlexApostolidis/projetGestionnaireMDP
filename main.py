@@ -1,8 +1,8 @@
 #immport
 import classe
-import json
 import random_passWord
 import logIn
+
 
 
 #MAIN
@@ -21,14 +21,8 @@ if __name__ == '__main__':
     if connexionAuProgramme == True :
    
         wallet = classe.Wallet()
-        with open ('data.json') as read:
-            lectur = json.load(read)
-        
-        for i in lectur:
-            wallet._passWords.append(i)
+        data = wallet.ouverture()
 
-
-        
         condition = True
         while condition:
             question = input('\nQue voulez vous faire ? \nTaper "nouveau" pour pouvoir ajouter un mot de passe\nTaper "supprimer" pour supprimer un mot de passe\nTaper "modifier" pour modifier un mot de passe \nTaper "afficher" pour afficher un mot de passe \nTaper "enregistrer" pour enregistrer et fermer le programme \n=>')
@@ -44,37 +38,30 @@ if __name__ == '__main__':
                     wallet.logs(site, id, passWord)
                     print('\n---------- Le mot de passe du site "' + site + '" a bien été ajouté ----------\n')
                     print("- "+ site + " | identifiant: " + id + " | password: " + passWord + "\n")
-                    #wallet.affichage()
+
 
                 case "supprimer":
                     supprimer = input('Quelle mot de passe voulez vous supprimer ? Entrez le site en question ')
                     print('\n---------- Le mot de passe du site "' + site + '" a bien été supprimé ----------\n')
                     wallet.supprimer(supprimer)
-                    #wallet.affichage()
+
 
                 case "modifier":
-                    modifier = input('Quel mot de passe voulez vous modifier ? Entrez le site en question ')
-                    for i in wallet._passWords:
-                        if i['site'] == modifier:
-                            nouveau_mot_de_passe = input('Voulez vous un mot de passe généré automatiquement ? oui/non ')
-                            if nouveau_mot_de_passe == "non":
-                                nouveau_mot_de_passe = input('entrez le nouveau mot de passe: ')
-                            else : nouveau_mot_de_passe = random_passWord.mot_de_passe()
-                            print('\n---------- Le mot de passe du site "' + i['site'] + '" a bien été modifié ----------\n')
-                            print("- ancien mot de passe : "+ i['site'] + " | identifiant: " + i['id'] + " | password: " + i['passWord'] + "\n")
-                            wallet.nouveau(modifier, nouveau_mot_de_passe)
-                            print("- nouveau mot de passe : "+ i['site'] + " | identifiant: " + i['id'] + " | password: " + i['passWord'] + "\n")
+                    site = input('Quel mot de passe voulez vous modifier ? Entrez le site en question ')
+                    mdp = wallet.modifier(site)
+                    print('\n---------- Le mot de passe du site "' + site + '" a bien été modifié ----------\n')
+                    wallet.nouveau(site, mdp)
+
 
                 case "enregistrer":
-                    condition = False
+                    wallet.enregistrer()
 
                 case "afficher":
                     wallet.affichage()
 
+                case "fin":
+                    condition = False
 
-
-        with open('data.json', 'w') as file:
-            json.dump(wallet._passWords, file)
         
 
     

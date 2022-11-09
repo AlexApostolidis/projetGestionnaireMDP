@@ -1,5 +1,6 @@
 from ast import main
-
+import random_passWord
+import json
 
 
 class Wallet:
@@ -21,11 +22,21 @@ class Wallet:
                 i['passWord'] = new_passWord
                 
 
-    
     def supprimer(self, site):
         for i in self._passWords:
             if i['site'] == site:
                 self._passWords.remove(i)
+
+
+    def modifier(self, new_passWord):
+        for i in self._passWords:
+            if i['site'] == new_passWord:
+                nouveau_mot_de_passe = input('Voulez vous un mot de passe généré automatiquement ? oui/non ')
+                if nouveau_mot_de_passe == "non":
+                    nouveau_mot_de_passe = input('entrez le nouveau mot de passe: ')
+                else : nouveau_mot_de_passe = random_passWord.mot_de_passe()
+                
+        return nouveau_mot_de_passe
                 
         
 
@@ -35,6 +46,17 @@ class Wallet:
 
 
 
+    def enregistrer(self):
+        with open('data.json', 'w') as file:
+            json.dump(self._passWords, file)
+
+
+    def ouverture(self):
+        with open ('data.json') as read:
+            lectur = json.load(read)
+        for i in lectur:
+            self._passWords.append(i)
+        return self._passWords
 
 
 
