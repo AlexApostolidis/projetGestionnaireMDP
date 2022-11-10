@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
                 case "enregistrer":
                     wallet.enregistrer()
-                    print('---------- Vos mots de passe ont bien été enregistrés ----------')
+                    print('\n---------- Vos mots de passe ont bien été enregistrés ----------')
 
                 case "afficher":
                     wallet.affichage()
