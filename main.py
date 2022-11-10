@@ -12,7 +12,9 @@ if __name__ == '__main__':
     username = input("Enter username: ")
     connection_password = maskpass.askpass(mask='*')
     connection_to_the_program = logIn.connection(username, connection_password)
+
     while not connection_to_the_program:
+
         print('Identifiant ou mot de passe incorrecte. Veuillez réssayer.\n')
         username = input("Enter username: ")
         connection_password = maskpass.askpass(mask='*')
@@ -22,9 +24,10 @@ if __name__ == '__main__':
 
         wallet = classe.Wallet()
         data = wallet.opening()
-
         condition = True
+
         while condition:
+
             question = input('\nQue voulez vous faire ?\n')
             print('Taper "nouveau" pour pouvoir ajouter un mot de passe\n')
             print('Taper "supprimer" pour supprimer un mot de passe\n')
@@ -32,6 +35,7 @@ if __name__ == '__main__':
             print('Taper "afficher" pour afficher un mot de passe \n')
             print('Taper "enregistrer" pour enregistrer et fermer le programme\n')
             print('Taper "fin" pour fermer le programme \n=>')
+
             match question:
 
                 case "nouveau":
@@ -39,10 +43,12 @@ if __name__ == '__main__':
                     site = input('Entrez un nouveau site: ')
                     identify = input('Entrez votre identifiant: ')
                     password = input('Voulez vous un mot de passe généré automatiquement ? oui/non ')
+
                     if password == "non":
                         password = input('Entrez votre mot de passe: ')
                     else:
                         password = random_passWord.automatic_random_password()
+
                     wallet.logs(site, id, password)
                     print(f'\n---------- Le mot de passe du site "{site}" a bien été ajouté ----------\n')
                     print(f"- {site} | identifiant: {identify} | password: {password}\n")
