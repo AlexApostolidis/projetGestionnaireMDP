@@ -60,7 +60,8 @@ class Wallet:
             if i['site'] == site:
                 self._passwords.remove(i)
 
-    def create_password(self):
+    @staticmethod
+    def create_password():
         """
            create a new password (automatic or not)
            param: none
@@ -74,16 +75,31 @@ class Wallet:
         return next_password
 
     def viewing(self):
+        """
+            display the overview of the list
+            param: none
+            return: none
+        """
 
         for i in self._passwords:
             print("\n- " + i['site'] + " | identifiant: " + i['id'] + " | mot de passe: " + i['password'] + " \n")
 
     def save(self):
+        """
+            save list in a JSON file
+            param: none
+            return: none
+        """
 
         with open('data.json', 'w') as file:
             json.dump(self._passwords, file)
 
     def opening(self):
+        """
+            allow to open a JSON file and add the list in
+            param:  none
+            return: updated list
+        """
 
         with open('data.json') as read:
             reading = json.load(read)

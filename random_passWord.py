@@ -2,6 +2,7 @@ import random
 
 
 def automatic_random_password():
+    
 
     lower_case = "abcdefghijklmnopqrstuvwxyz"
     upper_case = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
