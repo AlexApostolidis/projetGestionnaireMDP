@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 #immport
 import classe
 import random_passWord
@@ -8,13 +9,14 @@ import maskpass
 #MAIN
 if __name__ == '__main__':
 
+
     print("Bienvenue dans votre gestionnaire de mot de passe ! \nConnectez vous au programme :)\n")
     username = input("Enter username: ")
     connexionPassword = maskpass.askpass(mask='*')
     connexionAuProgramme = logIn.connexion(username, connexionPassword) 
     while connexionAuProgramme == False :
         print('Identifiant ou mot de passe incorrecte. Veuillez réssayer.\n')
-        username = input("Nom d'utilisateur: ")
+        username = input("Enter username: ")
         connexionPassword = maskpass.askpass(mask='*')
         connexionAuProgramme = logIn.connexion(username, connexionPassword)
 
@@ -55,7 +57,7 @@ if __name__ == '__main__':
 
                 case "enregistrer":
                     wallet.enregistrer()
-                    print('---------- Vos mots de passe ont bien été enregistrés ----------')
+                    print('\n---------- Vos mots de passe ont bien été enregistrés ----------')
 
                 case "afficher":
                     wallet.affichage()
