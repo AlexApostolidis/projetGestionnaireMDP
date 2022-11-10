@@ -1,20 +1,21 @@
+#immport
 import classe
 import random_passWord
 import logIn
-
+import maskpass
 
 
 #MAIN
 if __name__ == '__main__':
 
     print("Bienvenue dans votre gestionnaire de mot de passe ! \nConnectez vous au programme :)\n")
-    username = input("Nom d'utilisateur: ")
-    connexionPassword = input("Mot de passe: ")
+    username = input("Enter username: ")
+    connexionPassword = maskpass.askpass(mask='*')
     connexionAuProgramme = logIn.connexion(username, connexionPassword) 
     while connexionAuProgramme == False :
         print('Identifiant ou mot de passe incorrecte. Veuillez réssayer.\n')
         username = input("Nom d'utilisateur: ")
-        connexionPassword = input("Mot de passe: ")
+        connexionPassword = maskpass.askpass(mask='*')
         connexionAuProgramme = logIn.connexion(username, connexionPassword)
 
     if connexionAuProgramme == True :
