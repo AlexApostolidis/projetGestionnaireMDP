@@ -10,7 +10,7 @@ if __name__ == '__main__':
 
     print("Bienvenue dans votre gestionnaire de mot de passe ! \nConnectez vous au programme :)\n")
     username = input("Enter username: ")
-    connection_password = maskpass.askpass(mask='*')
+    connection_password = maskpass.askpass(mask='*') #hide password while writing
     connection_to_the_program = logIn.connection(username, connection_password)
 
     while not connection_to_the_program:
