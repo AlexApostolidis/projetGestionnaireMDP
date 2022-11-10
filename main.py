@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 import classe
 import random_passWord
 import logIn
