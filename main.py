@@ -28,13 +28,13 @@ if __name__ == '__main__':
 
         while condition:
 
-            question = input('\nQue voulez vous faire ?\n')
-            print('Taper "nouveau" pour pouvoir ajouter un mot de passe\n')
-            print('Taper "supprimer" pour supprimer un mot de passe\n')
-            print('Taper "modifier" pour modifier un mot de passe \n')
-            print('Taper "afficher" pour afficher un mot de passe \n')
-            print('Taper "enregistrer" pour enregistrer et fermer le programme\n')
-            print('Taper "fin" pour fermer le programme \n=>')
+            question = input('\nQue voulez vous faire ?\n'
+                             'Taper "nouveau" pour pouvoir ajouter un mot de passe\n'
+                             'Taper "supprimer" pour supprimer un mot de passe\n'
+                             'Taper "modifier" pour modifier un mot de passe \n'
+                             'Taper "afficher" pour afficher un mot de passe \n'
+                             'Taper "enregistrer" pour enregistrer et fermer le programme\n'
+                             'Taper "fin" pour fermer le programme \n=>')
 
             match question:
 
