@@ -2,7 +2,7 @@ import random
 
 
 
-def mot_de_passe():
+def automatic_random_password():
     lower_case = "abcdefghijklmnopqrstuvwxyz"
     upper_case = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     number = "0123456789"

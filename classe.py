@@ -7,59 +7,53 @@ class Wallet:
     """pour stocker les mots de passe en ajouter et les modifier"""
 
     def __init__(self):
-        self._passWords = []
+        self._passwords = []
 
    
-    def logs(self, new_site, new_identify, new_passWord):
-        self._passWords.append({'site':new_site, 'id' : new_identify, 'passWord':new_passWord})
+    def logs(self, new_site, new_identify, new_password):
+        self._passwords.append({'site':new_site, 'id' : new_identify, 'password':new_password})
 
     def __str__(self):
-        return str(self._passWords)
+        return str(self._passwords)
 
-    def nouveau(self,site, new_passWord):
-         for i in self._passWords:
+    def create_password(self,site, new_password):
+         for i in self._passwords:
             if i['site'] == site:
-                i['passWord'] = new_passWord
+                i['password'] = new_password
                 
 
-    def supprimer(self, site):
-        for i in self._passWords:
+    def delete_password(self, site):
+        for i in self._passwords:
             if i['site'] == site:
-                self._passWords.remove(i)
+                self._passwords.remove(i)
 
 
-    def modifier(self, new_passWord):
-        for i in self._passWords:
-            if i['site'] == new_passWord:
-                nouveau_mot_de_passe = input('Voulez vous un mot de passe généré automatiquement ? oui/non ')
-                if nouveau_mot_de_passe == "non":
-                    nouveau_mot_de_passe = input('entrez le nouveau mot de passe: ')
-                else : nouveau_mot_de_passe = random_passWord.mot_de_passe()
+    def edit(self, new_password):
+        for i in self._passwords:
+            if i['site'] == new_password:
+                next_password = input('Voulez vous un mot de passe généré automatiquement ? oui/non ')
+                if next_password == "non":
+                    next_password = input('entrez le nouveau mot de passe: ')
+                else : next_password = random_passWord.automatic_random_password()
                 
-        return nouveau_mot_de_passe
+        return next_password
                 
         
 
-    def affichage(self):
-        for i in self._passWords:
-            print("\n- " + i['site'] + " | identifiant: " + i['id'] + " | mot de passe: " + i['passWord'] + " \n")
+    def viewing(self):
+        for i in self._passwords:
+            print("\n- " + i['site'] + " | identifiant: " + i['id'] + " | mot de passe: " + i['password'] + " \n")
 
 
 
-    def enregistrer(self):
+    def save(self):
         with open('data.json', 'w') as file:
-            json.dump(self._passWords, file)
+            json.dump(self._passwords, file)
 
 
-    def ouverture(self):
+    def opening(self):
         with open ('data.json') as read:
-            lectur = json.load(read)
-        for i in lectur:
-            self._passWords.append(i)
-        return self._passWords
-
-
-
- 
-
-
+            reading = json.load(read)
+        for i in reading:
+            self._passwords.append(i)
+        return self._passwords

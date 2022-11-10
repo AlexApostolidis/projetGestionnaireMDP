@@ -12,18 +12,18 @@ if __name__ == '__main__':
 
     print("Bienvenue dans votre gestionnaire de mot de passe ! \nConnectez vous au programme :)\n")
     username = input("Enter username: ")
-    connexionPassword = maskpass.askpass(mask='*')
-    connexionAuProgramme = logIn.connexion(username, connexionPassword) 
-    while connexionAuProgramme == False :
+    connection_password = maskpass.askpass(mask='*')
+    connection_to_the_program = logIn.connection(username, connection_password) 
+    while connection_to_the_program == False :
         print('Identifiant ou mot de passe incorrecte. Veuillez réssayer.\n')
         username = input("Enter username: ")
-        connexionPassword = maskpass.askpass(mask='*')
-        connexionAuProgramme = logIn.connexion(username, connexionPassword)
+        connection_password = maskpass.askpass(mask='*')
+        connection_to_the_program = logIn.connection(username, connection_password)
 
-    if connexionAuProgramme == True :
+    if connection_to_the_program == True :
    
         wallet = classe.Wallet()
-        data = wallet.ouverture()
+        data = wallet.opening()
 
         condition = True
         while condition:
@@ -33,34 +33,34 @@ if __name__ == '__main__':
                 case "nouveau":
                     site = input('Entrez un nouveau site: ')
                     id = input('Entrez votre identifiant: ')
-                    passWord = input('Voulez vous un mot de passe généré automatiquement ? oui/non ')
-                    if passWord == "non":
-                        passWord = input('Entrez votre mot de passe: ')
-                    else : passWord = random_passWord.mot_de_passe()
-                    wallet.logs(site, id, passWord)
+                    password = input('Voulez vous un mot de passe généré automatiquement ? oui/non ')
+                    if password == "non":
+                        password = input('Entrez votre mot de passe: ')
+                    else : password = random_passWord.automatic_random_password()
+                    wallet.logs(site, id, password)
                     print('\n---------- Le mot de passe du site "' + site + '" a bien été ajouté ----------\n')
-                    print("- "+ site + " | identifiant: " + id + " | password: " + passWord + "\n")
+                    print("- "+ site + " | identifiant: " + id + " | password: " + password + "\n")
 
 
                 case "supprimer":
-                    supprimer = input('Quelle mot de passe voulez vous supprimer ? Entrez le site en question ')
+                    delete = input('Quelle mot de passe voulez vous supprimer ? Entrez le site en question ')
                     print('\n---------- Le mot de passe du site "' + site + '" a bien été supprimé ----------\n')
-                    wallet.supprimer(supprimer)
+                    wallet.delete_password(delete)
 
 
                 case "modifier":
                     site = input('Quel mot de passe voulez vous modifier ? Entrez le site en question ')
-                    mdp = wallet.modifier(site)
+                    password = wallet.edit(site)
                     print('\n---------- Le mot de passe du site "' + site + '" a bien été modifié ----------\n')
-                    wallet.nouveau(site, mdp)
+                    wallet.create_password(site, password)
 
 
                 case "enregistrer":
-                    wallet.enregistrer()
+                    wallet.save()
                     print('\n---------- Vos mots de passe ont bien été enregistrés ----------')
 
                 case "afficher":
-                    wallet.affichage()
+                    wallet.viewing()
 
                 case "fin":
                     condition = False
