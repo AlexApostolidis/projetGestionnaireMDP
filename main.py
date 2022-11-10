@@ -62,9 +62,9 @@ if __name__ == '__main__':
                 case "modifier":
 
                     site = input('Quel mot de passe voulez vous modifier ? Entrez le site en question ')
-                    password = wallet.edit(site)
+                    password = wallet.create_password(site)
                     print(f'\n---------- Le mot de passe du site "{site}" a bien été modifié ----------\n')
-                    wallet.create_password(site, password)
+                    wallet.edit_site(site, password)
 
                 case "enregistrer":
 

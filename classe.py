@@ -3,44 +3,75 @@ import json
 
 
 class Wallet:
-
-    """pour stocker les mots de passe en ajouter et les modifier"""
+    """
+    A wallet for all the passwords and identificators
+    param: none
+    return: none
+    @authors: Apostolidis Alex, Gonzalez Shayann, Jacob Thomas
+    """
 
     def __init__(self):
+        """
+            initiate a list to stock identificators
+            param: none
+            return: none
+        """
 
         self._passwords = []
 
     def logs(self, new_site, new_identify, new_password):
+        """
+            fill a list with the parameters
+            param:
+                new_site: name of the sew website you want to add
+                new_identify: the username on the website
+                new_password: the password for this website
+            return: none
+        """
 
         self._passwords.append({'site': new_site, 'id': new_identify, 'password': new_password})
 
     @property
+    # getter method
     def __str__(self):
 
         return str(self._passwords)
 
-    def create_password(self, site, new_password):
-
+    def edit_site(self, site, new_password):
+        """
+            write the new_password on the site
+            param:
+                site: the website which the function is changing the password
+                new_password: the new password
+            return: none
+        """
         for i in self._passwords:
             if i['site'] == site:
                 i['password'] = new_password
 
     def delete_password(self, site):
-
+        """
+            remove a website from the list
+            param:
+                site: the website to remove from the list
+            return: none
+        """
         for i in self._passwords:
             if i['site'] == site:
                 self._passwords.remove(i)
 
-    def edit(self, new_password):
-
-        for i in self._passwords:
-            if i['site'] == new_password:
-                ask_auto_password = input('Voulez vous un mot de passe généré automatiquement ? oui/non ').lower()
-                if ask_auto_password == "non":
-                    next_password = input('entrez le nouveau mot de passe: ')
-                    return next_password
-                next_password = random_passWord.automatic_random_password()
-                return next_password
+    def create_password(self):
+        """
+           create a new password (automatic or not)
+           param: none
+           return: new the new password
+        """
+        ask_auto_password = input('Voulez vous un mot de passe généré automatiquement ? oui/non ').lower()
+        if ask_auto_password == "non":
+            next_password = input('entrez le nouveau mot de passe: ')
+            return next_password
+        next_password = random_passWord.automatic_random_password()
+        return next_password
 
     def viewing(self):
 
