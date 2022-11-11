@@ -65,7 +65,7 @@ class Wallet:
         """
            create a new password (automatic or not)
            param: none
-           return: new the new password
+           return: string the new password
         """
         ask_auto_password = input('Voulez vous un mot de passe généré automatiquement ? oui/non ').lower()
         if ask_auto_password == "non":
