@@ -17,7 +17,7 @@ class Wallet:
             return: none
         """
 
-        self._passwords = []
+        self._wallet = []
 
     def logs(self, new_site, new_identify, new_password):
         """
