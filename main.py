@@ -1,28 +1,31 @@
 #! /usr/bin/env python3
 # import
-import classe
 import random_passWord
-import logIn
 import maskpass
+from classes import Account
+from classes import Password
+from classes import User
+from classes import Username
+from classes import Wallet
+from classes import Website
 
 # main
 if __name__ == '__main__':
 
     print("Bienvenue dans votre gestionnaire de mot de passe ! \nConnectez vous au programme :)\n")
-    username = input("Enter username: ")
     connection_password = maskpass.askpass(mask='*')  # hide password while writing
-    connection_to_the_program = logIn.connection(username, connection_password)
+    connection_to_the_program = Account.verify_account(connection_password)
 
     while not connection_to_the_program:
 
         print('Identifiant ou mot de passe incorrecte. Veuillez réssayer.\n')
         username = input("Enter username: ")
         connection_password = maskpass.askpass(mask='*')
-        connection_to_the_program = logIn.connection(username, connection_password)
+        connection_to_the_program = Account.verify_account(connection_password)
 
     if connection_to_the_program:
 
-        wallet = classe.Wallet()
+        wallet = Wallet()
         data = wallet.opening()
         condition = True
 
