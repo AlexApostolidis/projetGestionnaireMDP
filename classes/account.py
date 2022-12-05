@@ -5,21 +5,23 @@ class Account:
     """
 
     def __init__(self):
-        self._account = self.create_account()
+        with open("connexionId.json", 'r') as file:
+            password = json.load(file)
 
-    @property
-    def account(self):
-        return self._account
-
-    def create_account(self, password):
-        self._password = password
-    
+        self._password = password["user"]["password"]
     @property
     def password(self):
         return self._password
-    
+
     @staticmethod
-    def verify_account(connection_password):
+    def create_account(password):
+        with open("connexionId.json", 'r') as file:
+            json_dictionnary = json.load(file)
+
+        json_dictionnary["user"]["password"] = password
+        with open("connexionId.json", 'w') as writing_pass:
+            json.dump(json_dictionnary, writing_pass)
+    def verify_account(self):
         with open("connexionId.json") as file:
             doc = json.load(file)
-        return doc['user']['password'] == connection_password
+        return doc['user']['password'] == self._password

@@ -1,5 +1,7 @@
 #! /usr/bin/env python3
 # import
+import json
+
 import random_passWord
 import maskpass
 from classes import Account
@@ -11,6 +13,13 @@ from classes import Website
 
 # main
 if __name__ == '__main__':
+
+    with open('connexionId.json', 'r') as connexion:
+        password = json.load(connexion)
+        if password == "":
+            print("Veuillez vous créer un mot de passe")
+            new_password = input(" => ")
+            Account.create_account(new_password)
 
     print("Bienvenue dans votre gestionnaire de mot de passe ! \nConnectez vous au programme :)\n")
     connection_password = maskpass.askpass(mask='*')  # hide password while writing
