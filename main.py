@@ -101,6 +101,10 @@ if __name__ == '__main__':
 
                     wallet.viewing()
 
+                case "BITE":
+
+                    pass
+
                 case "fin":
 
                     condition = False

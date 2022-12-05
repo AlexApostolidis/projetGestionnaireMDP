@@ -29,3 +29,13 @@ class Account:
         with open("connexionId.json") as file:
             doc = json.load(file)
         return doc['user']['password'] == password
+
+    @staticmethod
+    def renew_password():
+        """
+           create a new password (automatic or not)
+           param: none
+           return: string the new password
+        """
+        next_password = input('entrez le nouveau mot de passe: ')
+        return next_password

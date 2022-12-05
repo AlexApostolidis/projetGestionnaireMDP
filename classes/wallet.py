@@ -60,20 +60,6 @@ class Wallet:
             if i['site'] == site:
                 self._wallet.remove(i)
 
-    @staticmethod
-    def create_password():
-        """
-           create a new password (automatic or not)
-           param: none
-           return: string the new password
-        """
-        ask_auto_password = input('Voulez vous un mot de passe généré automatiquement ? oui/non ').lower()
-        if ask_auto_password == "non":
-            next_password = input('entrez le nouveau mot de passe: ')
-            return next_password
-        next_password = random_passWord.automatic_random_password()
-        return next_password
-
     def viewing(self):
         """
             display the overview of the list
@@ -106,3 +92,17 @@ class Wallet:
         for i in reading:
             self._wallet.append(i)
         return self._wallet
+
+    @staticmethod
+    def create_password():
+        """
+           create a new password (automatic or not)
+           param: none
+           return: string the new password
+        """
+        ask_auto_password = input('Voulez vous un mot de passe généré automatiquement ? oui/non ').lower()
+        if ask_auto_password == "non":
+            next_password = input('entrez le nouveau mot de passe: ')
+            return next_password
+        next_password = random_passWord.automatic_random_password()
+        return next_password
