@@ -16,7 +16,7 @@ if __name__ == '__main__':
     with open('connexionId.json', 'r') as user_data:
         data_json = json.load(user_data)
 
-    if data_json["firstname"] == "" or data_json["lastname"]:
+    if data_json["firstname"] == "" or data_json["lastname"] == "":
         print('Bonjour veuillez indiquer votre nom et prénom')
         firstname = input("Quelle est votre prénom : ")
         lastname = input("Quelle est votre nom : ")
