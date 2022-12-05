@@ -1,7 +1,6 @@
 import random_passWord
 import json
 
-
 class Wallet:
     """
     A wallet for all the passwords and identificators
@@ -19,6 +18,7 @@ class Wallet:
 
         self._wallet = []
 
+
     def logs(self, new_site, new_identify, new_password):
         """
             fill a list with the parameters
@@ -29,13 +29,13 @@ class Wallet:
             return: none
         """
 
-        self._passwords.append({'site': new_site, 'id': new_identify, 'password': new_password})
+        self._wallet.append({'site': new_site, 'id': new_identify, 'password': new_password})
 
     @property
     # getter method
     def __str__(self):
 
-        return str(self._passwords)
+        return str(self._wallet)
 
     def edit_site(self, site, new_password):
         """
@@ -45,7 +45,7 @@ class Wallet:
                 new_password: the new password
             return: none
         """
-        for i in self._passwords:
+        for i in self._wallet:
             if i['site'] == site:
                 i['password'] = new_password
 
@@ -56,9 +56,9 @@ class Wallet:
                 site: the website to remove from the list
             return: none
         """
-        for i in self._passwords:
+        for i in self._wallet:
             if i['site'] == site:
-                self._passwords.remove(i)
+                self._wallet.remove(i)
 
     @staticmethod
     def create_password():
@@ -81,7 +81,7 @@ class Wallet:
             return: none
         """
 
-        for i in self._passwords:
+        for i in self._wallet:
             print("\n- " + i['site'] + " | identifiant: " + i['id'] + " | mot de passe: " + i['password'] + " \n")
 
     def save(self):
@@ -92,7 +92,7 @@ class Wallet:
         """
 
         with open('data.json', 'w') as file:
-            json.dump(self._passwords, file)
+            json.dump(self._wallet, file)
 
     def opening(self):
         """
@@ -104,5 +104,5 @@ class Wallet:
         with open('data.json') as read:
             reading = json.load(read)
         for i in reading:
-            self._passwords.append(i)
-        return self._passwords
+            self._wallet.append(i)
+        return self._wallet
