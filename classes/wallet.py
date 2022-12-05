@@ -1,6 +1,7 @@
 import random_passWord
 import json
 
+
 class Wallet:
     """
     A wallet for all the passwords and identificators
@@ -18,7 +19,6 @@ class Wallet:
 
         self._wallet = []
 
-
     def logs(self, new_site, new_identify, new_password):
         """
             fill a list with the parameters
@@ -29,7 +29,7 @@ class Wallet:
             return: none
         """
 
-        self._wallet.append({'site': new_site, 'id': new_identify, 'password': new_password})
+        self._wallet.append({'site': new_site.name, 'id': new_identify.username, 'password': new_password.password})
 
     @property
     # getter method

@@ -1,5 +1,6 @@
 import json
 
+
 class Account:
     """
     """
@@ -9,6 +10,7 @@ class Account:
             password = json.load(file)
 
         self._password = password["user"]["password"]
+    
     @property
     def password(self):
         return self._password
@@ -21,7 +23,9 @@ class Account:
         json_dictionnary["user"]["password"] = password
         with open("connexionId.json", 'w') as writing_pass:
             json.dump(json_dictionnary, writing_pass)
-    def verify_account(self):
+
+    @staticmethod
+    def verify_account(password):
         with open("connexionId.json") as file:
             doc = json.load(file)
-        return doc['user']['password'] == self._password
+        return doc['user']['password'] == password

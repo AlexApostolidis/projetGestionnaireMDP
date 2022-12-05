@@ -6,5 +6,5 @@ class Website:
         self._name = name 
     
     @property
-    def webname(self):
+    def name(self):
         return self._name
