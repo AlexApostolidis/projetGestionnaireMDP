@@ -53,9 +53,11 @@ class Wallet:
                 site: the website to remove from the list
             return: none
         """
-        for i in self._wallet:
+        """for i in self._wallet:
             if i['site'] == site:
-                self._wallet.remove(i)
+                self._wallet.remove(i)"""
+        self._wallet.pop(site)
+
 
     def display_wallet(self):
         """
