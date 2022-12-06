@@ -46,7 +46,7 @@ if __name__ == '__main__':
     if connection_to_the_program:
 
         wallet = Wallet()
-        data = wallet.opening()
+        data = wallet.opening_json()
         condition = True
 
         while condition:
@@ -62,12 +62,12 @@ if __name__ == '__main__':
             match question:
 
                 case "nouveau":
-
                     site = input('Entrez un nouveau site: ')
                     website_obj = Website(site)
                     identify = input('Entrez votre identifiant: ')
                     username_obj = Username(identify)
                     password = input('Voulez vous un mot de passe généré automatiquement ? oui/non ')
+
                     if password == "non":
                         password = input('Entrez votre mot de passe: ')
                         password_obj = Password(password)
@@ -75,36 +75,30 @@ if __name__ == '__main__':
                         password = random_passWord.automatic_random_password()
                         password_obj = Password(password)
 
-                    wallet.logs(website_obj, username_obj, password_obj)
+                    wallet.add_new_logs(website_obj, username_obj, password_obj)
                     print(f'\n---------- Le mot de passe du site "{site}" a bien été ajouté ----------\n')
                     print(f"- {site} | identifiant: {identify} | password: {password}\n")
 
                 case "supprimer":
-
                     delete = input('Quelle mot de passe voulez vous supprimer ? Entrez le site en question ')
                     print(f'\n---------- Le mot de passe du site "{delete}" a bien été supprimé ----------\n')
-                    wallet.delete_password(delete)
+                    wallet.delete_site_password(delete)
 
                 case "modifier":
-
                     site = input('Quel mot de passe voulez vous modifier ? Entrez le site en question ')
                     password = wallet.create_password()
                     print(f'\n---------- Le mot de passe du site "{site}" a bien été modifié ----------\n')
-                    wallet.edit_site(site, password)
+                    wallet.edit_site_password(site, password)
 
                 case "enregistrer":
-
-                    wallet.save()
+                    wallet.save_wallet()
                     print('\n---------- Vos mots de passe ont bien été enregistrés ----------')
 
                 case "afficher":
-
-                    wallet.viewing()
+                    wallet.display_wallet()
 
                 case "BITE":
-
                     pass
 
                 case "fin":
-
                     condition = False

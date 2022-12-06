@@ -16,10 +16,14 @@ class Wallet:
             param: none
             return: none
         """
-
         self._wallet = []
 
-    def logs(self, new_site, new_identify, new_password):
+    @property
+    # getter method
+    def __str__(self):
+        return str(self._wallet)
+
+    def add_new_logs(self, new_site, new_identify, new_password):
         """
             fill a list with the parameters
             param:
@@ -28,16 +32,9 @@ class Wallet:
                 new_password: the password for this website
             return: none
         """
-
         self._wallet.append({'site': new_site.name, 'id': new_identify.username, 'password': new_password.password})
 
-    @property
-    # getter method
-    def __str__(self):
-
-        return str(self._wallet)
-
-    def edit_site(self, site, new_password):
+    def edit_site_password(self, site, new_password):
         """
             write the new_password on the site
             param:
@@ -49,7 +46,7 @@ class Wallet:
             if i['site'] == site:
                 i['password'] = new_password
 
-    def delete_password(self, site):
+    def delete_site_password(self, site):
         """
             remove a website from the list
             param:
@@ -60,33 +57,30 @@ class Wallet:
             if i['site'] == site:
                 self._wallet.remove(i)
 
-    def viewing(self):
+    def display_wallet(self):
         """
             display the overview of the list
             param: none
             return: none
         """
-
         for i in self._wallet:
             print("\n- " + i['site'] + " | identifiant: " + i['id'] + " | mot de passe: " + i['password'] + " \n")
 
-    def save(self):
+    def save_wallet(self):
         """
             save list in a JSON file
             param: none
             return: none
         """
-
         with open('data.json', 'w') as file:
             json.dump(self._wallet, file)
 
-    def opening(self):
+    def opening_json(self):
         """
             allow to open a JSON file and add the list in
             param:  none
             return: updated list
         """
-
         with open('data.json') as read:
             reading = json.load(read)
         for i in reading:
