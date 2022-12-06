@@ -16,14 +16,18 @@ if __name__ == '__main__':
     with open('connexionId.json', 'r') as user_data:
         data_json = json.load(user_data)
 
-    if data_json["firstname"] == "" or data_json["lastname"] == "":
+    if data_json["firstname"] == "" or data_json["lastname"] == "" or data_json["question"] == "":
         print('Bonjour veuillez indiquer votre nom et prénom')
         firstname = input("Quelle est votre prénom : ")
         lastname = input("Quelle est votre nom : ")
-        while firstname == "" or lastname == "":
+        security_question = input("Dans quel ville êtes vous née (cette question sera une question de "
+                                  "sécurité au cas ou vous oublierez votre mot de passe)?")
+        while firstname == "" or lastname == "" or security_question == "":
             firstname = input("Quelle est votre prénom : ")
             lastname = input("Quelle est votre nom : ")
-        user_app = User.write_names(firstname, lastname)
+            security_question = input("Dans quel ville êtes vous née (cette question sera une question de "
+                                      "sécurité au cas ou vous oublierez votre mot de passe)?")
+        user_app = User.write_names(firstname, lastname, security_question)
 
     if data_json["user"]["password"] == "":
         print("Veuillez vous créer un mot de passe")
@@ -39,8 +43,19 @@ if __name__ == '__main__':
 
     while not connection_to_the_program:
 
-        print('Mot de passe incorrecte. Veuillez réssayer.\n')
+        print('Mot de passe incorrecte. Veuillez réssayer, si vous avez oublié votre mot de passe taper f.\n')
         connection_password = input("MDP : ")
+        if connection_password == "f":
+            connection_password = input("Dans quel ville êtes vous née ? ")
+            with open("connexionId.json") as verify_question:
+                question = json.load(verify_question)
+            if question["question"] != connection_password:
+                while question["question"] != connection_password:
+                    print("Mauvaise réponse")
+                    connection_password = input("Dans quel ville êtes vous née ? ")
+                connection_password = question["user"]["password"]
+            else:
+                connection_password = question["user"]["password"]
         connection_to_the_program = Account.verify_account(connection_password)
 
     if connection_to_the_program:
@@ -57,7 +72,6 @@ if __name__ == '__main__':
                              'Taper "modifier" pour modifier un mot de passe \n'
                              'Taper "afficher" pour afficher un mot de passe \n'
                              'Taper "enregistrer" pour enregistrer et fermer le programme\n'
-                             'Taper "MDP appli" pour changer le mot de passe de l application\n'
                              'Taper "fin" pour fermer le programme \n=>')
 
             match question:
@@ -97,13 +111,6 @@ if __name__ == '__main__':
 
                 case "afficher":
                     wallet.display_wallet()
-
-                case "MDP appli":
-                    print('Choisissez un nouveau mot de passe pour votre application')
-                    application_password = Account.new_password()
-                    print("\n---------- Le mot de passe de l'application à bien été modifié ----------")
-                    Account.edit_application_password(application_password)
-                    pass
 
                 case "fin":
                     condition = False
