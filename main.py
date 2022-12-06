@@ -72,6 +72,7 @@ if __name__ == '__main__':
                              'Taper "modifier" pour modifier un mot de passe \n'
                              'Taper "afficher" pour afficher un mot de passe \n'
                              'Taper "enregistrer" pour enregistrer et fermer le programme\n'
+                             'Taper "MDP appli" pour changer le mot de passe de l application\n'
                              'Taper "fin" pour fermer le programme \n=>')
 
             match question:
@@ -111,6 +112,12 @@ if __name__ == '__main__':
 
                 case "afficher":
                     wallet.display_wallet()
+
+                case "MDP appli":
+                    print('Choisissez un nouveau mot de passe pour votre application')
+                    application_password = Account.new_password()
+                    print("\n---------- Le mot de passe de l'application à bien été modifié ----------")
+                    Account.edit_application_password(application_password)
 
                 case "fin":
                     condition = False
