@@ -33,20 +33,37 @@ class Gui:
         file = open("data.json", "r")
         jjson = json.load(file)
 
+
         for line in jjson:
             self.treeview.insert("", tk.END, text=line["site"], values=(line["id"], line["password"]))
 
     def delete_record(self):
-        row_id = self.treeview.focus()
+        """row_id = self.treeview.focus()
 
         if row_id != "":
             self.treeview.delete(row_id)
-            # print(row_id[1:])
+        print(row_id)
         index_Json = int(row_id[1:], base=16) - 1
+        #print(index_Json)
+        self.selectItem(index_Json)
+
 
         wallet.delete_site_password(index_Json)
-
         wallet.save_wallet()
+        self.clear_all()
+        self.read_data()"""
+        x = self.treeview.selection()
+        index_Json = int(x[1:], base=16) - 1
+        for record in index_Json:
+            self.treeview.delete(record)
+            wallet.delete_site_password(record)
+            wallet.save_wallet()
+            self.clear_all()
+            self.read_data()
+
+    def selectItem(self,a):
+        curItem = self.treeview.focus()
+        print(self.treeview.item(curItem))
 
 
     def clear_all(self):
