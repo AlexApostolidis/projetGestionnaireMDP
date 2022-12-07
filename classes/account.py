@@ -26,7 +26,7 @@ class Account:
 
     @staticmethod
     def verify_account(password):
-        with open("connexionId.json") as file:
+        with open("../connexionId.json") as file:
             doc = json.load(file)
         return doc['user']['password'] == password
 

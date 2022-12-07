@@ -3,7 +3,6 @@ class Password:
     """
 
     def __init__(self, password):
-        self.testing_password(password)
         self._password = password
 
     @property
@@ -17,6 +16,6 @@ class Password:
         list_password_non_alpha = list(map(lambda x: x.isalnum(), [*password])).count(False)
 
         if len(password) >= 12 and list_password_alpha >= 1 and list_password_digit >= 1 and list_password_non_alpha >= 1:
-            print('ok')
+            return 1
         else:
-            print('not ok')
+            return 0

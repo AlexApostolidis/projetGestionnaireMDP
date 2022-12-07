@@ -1,5 +1,6 @@
-import random_passWord
 import json
+
+import random_passWord
 
 
 class Wallet:
@@ -32,7 +33,9 @@ class Wallet:
                 new_password: the password for this website
             return: none
         """
-        self._wallet.append({'site': new_site.name, 'id': new_identify.username, 'password': new_password.password})
+
+        self._wallet.append({'index': len(self._wallet) + 1, 'site': new_site.name, 'id': new_identify.username,
+                             'password': new_password.password})
 
     def edit_site_password(self, site, new_password):
         """
@@ -42,8 +45,12 @@ class Wallet:
                 new_password: the new password
             return: none
         """
-        for i in self._wallet:
+        # console version
+        """for i in self._wallet:
             if i['site'] == site:
+                i['password'] = new_password"""
+        for i in self._wallet:
+            if i['index'] == int(site):
                 i['password'] = new_password
 
     def delete_site_password(self, site):
@@ -53,11 +60,14 @@ class Wallet:
                 site: the website to remove from the list
             return: none
         """
+        # console version
         """for i in self._wallet:
             if i['site'] == site:
                 self._wallet.remove(i)"""
         self._wallet.pop(site)
-
+        for j in range(len(self._wallet)):
+            self._wallet[j]['index'] = j + 1
+        self.save_wallet()
 
     def display_wallet(self):
         """
@@ -102,3 +112,6 @@ class Wallet:
             return next_password
         next_password = random_passWord.automatic_random_password()
         return next_password
+
+    def __len__(self):
+        return len(self._wallet)
