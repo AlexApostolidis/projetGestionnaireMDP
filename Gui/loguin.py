@@ -45,7 +45,7 @@ class Loguin:
                                                          "Mot de passe incorrect. Veuillez réssayer, si vous avez oublié votre mot de passe taper f.\n")
             if connection_password == "f":
                 connection_password = simpledialog.askstring("Input", "Dans quel ville êtes vous né ? ")
-                with open("../connexionId.json") as verify_question:
+                with open("connexionId.json") as verify_question:
                     question = json.load(verify_question)
                 if question["question"] != connection_password:
                     while question["question"] != connection_password:
