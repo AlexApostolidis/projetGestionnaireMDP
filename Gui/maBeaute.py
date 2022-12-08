@@ -2,7 +2,7 @@ import random_passWord
 from loguin import *
 import json
 import tkinter as tk
-from tkinter import  ttk
+from tkinter import ttk
 from tkinter import messagebox
 from tkinter import simpledialog
 from classes import *
@@ -51,7 +51,7 @@ class Gui:
     def delete_record(self):
         x = self.treeview.focus()
         if len(wallet) < 1:
-            messagebox.showerror(title="Erreur", message="ptn zbi")
+            messagebox.showerror(title="Erreur", message="Votre fichier est vide")
 
         for record in x:
             self.treeview.delete(record)
@@ -64,7 +64,7 @@ class Gui:
             self.treeview.delete(item)
 
     def add_record(self):
-        parent = simpledialog.askstring("Input", "Entrer parent (si existe)")
+        parent = simpledialog.askstring("Input", "Entrer le nom du site")
         name = simpledialog.askstring("Input", "Entrer nom d'utilisateur")
 
         # self.treeview.insert(parent, tk.END, text=name, values=(name, password))
@@ -73,7 +73,7 @@ class Gui:
         username_obj = Username(name)
         selected_item = self.treeview.selection()[0:]
 
-        password = simpledialog.askstring("Input", "mdp auto taper Y")
+        password = simpledialog.askstring("Input", "Entrer votre mot de passe (si vous voulez un mot de passe automatique entrer Y)")
 
         if password == "Y":
             password = random_passWord.automatic_random_password()
@@ -90,9 +90,9 @@ class Gui:
     def edit_record(self):
         y = self.treeview.focus()
         if len(wallet) < 1:
-            messagebox.showerror(title="Erreur", message="ptn zbi")
+            messagebox.showerror(title="Erreur", message="Votre fichier est vide")
         else:
-            password = simpledialog.askstring("Input", "mdp auto taper Y")
+            password = simpledialog.askstring("Input", "Entrer votre mot de passe (si vous voulez un mot de passe automatique entrer Y")
 
             if password == "Y":
                 password = random_passWord.automatic_random_password()

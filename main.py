@@ -2,7 +2,7 @@
 # import
 import json
 import random_passWord
-# import maskpass
+import maskpass
 from classes import Account
 from classes import Password
 from classes import User
@@ -38,21 +38,21 @@ if __name__ == '__main__':
         Account.create_account(new_password)
 
     print("Bienvenue dans votre gestionnaire de mot de passe ! \nConnectez vous au programme :)\n")
-    connection_password = input("MDP : ")  # hide password while writing
+    connection_password = maskpass.askpass(prompt='Mot de passe: ', mask='*')  # hide password while writing
     connection_to_the_program = Account.verify_account(connection_password)
 
     while not connection_to_the_program:
 
-        print('Mot de passe incorrecte. Veuillez réssayer, si vous avez oublié votre mot de passe taper f.\n')
-        connection_password = input("MDP : ")
-        if connection_password == "f":
-            connection_password = input("Dans quel ville êtes vous née ? ")
+        print("Mot de passe incorrecte. Veuillez réssayer, si vous avez oublié votre mot de passe taper 'oubli'.\n")
+        connection_password = maskpass.askpass(prompt='Mot de passe: ', mask='*') # hide password while writing
+        if connection_password == "oubli":
+            connection_password = maskpass.askpass(prompt='Dans quelle ville êtes vous née ? ', mask='*') # hide city while writing
             with open("connexionId.json") as verify_question:
                 question = json.load(verify_question)
             if question["question"] != connection_password:
                 while question["question"] != connection_password:
                     print("Mauvaise réponse")
-                    connection_password = input("Dans quel ville êtes vous née ? ")
+                    connection_password = maskpass.askpass(prompt='Dans quelle ville êtes vous née ? ', mask='*') # hide city while writing 
                 connection_password = question["user"]["password"]
             else:
                 connection_password = question["user"]["password"]
