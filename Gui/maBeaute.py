@@ -1,10 +1,10 @@
+import random_passWord
+from loguin import *
 import json
 import tkinter as tk
-import tkinter.ttk as ttk
+from tkinter import  ttk
 from tkinter import messagebox
 from tkinter import simpledialog
-
-import random_passWord
 from classes import *
 
 wallet = Wallet()
@@ -23,8 +23,6 @@ class Gui:
         self.treeview.heading("username", text="Utilisateur")
         self.treeview.heading("password", text="Mot de passe")
 
-
-
         button = ttk.Button(master, text="Ajouter donnée", command=self.add_record)
         button.pack(padx=5, pady=5, side=tk.RIGHT)
 
@@ -38,7 +36,6 @@ class Gui:
         # scroll.pack(side = 'right', fill = 'y')
 
         self.treeview.configure(yscrollcommand=scroll.set)"""
-
 
         self.read_data()
 
@@ -111,11 +108,12 @@ class Gui:
             self.read_data()
 
 
-
-
-
 root = tk.Tk()
-root.title("Gestionnaire de mot de passe")
 
+root.title("Gestionnaire de mot de passe")
+loguin = Loguin(root)
+root.destroy()
+root = tk.Tk()
 gui = Gui(root)
+
 root.mainloop()

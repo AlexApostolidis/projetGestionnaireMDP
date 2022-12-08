@@ -5,27 +5,27 @@ from tkinter import messagebox
 from tkinter import simpledialog
 from classes import *
 
-class Gui:
+class Loguin:
     def __init__(self, master):
         self.login()
 
     def login(self):
-        with open('../connexionId.json', 'r') as user_data:
+        with open('connexionId.json', 'r') as user_data:
             data_json = json.load(user_data)
 
         if data_json["firstname"] == "" or data_json["lastname"] == "" or data_json["question"] == "":
             firstname = simpledialog.askstring("Input", "Entrer votre prénom")
             lastname = simpledialog.askstring("Input", "Entrer votre nom")
             security_question = simpledialog.askstring("Input",
-                                                       "Dans quel ville êtes vous née (cette question sera une question de "
-                                                       "sécurité au cas ou vous oublierez votre mot de passe)?")
+                                                       "Dans quel ville êtes vous né (cette question sera une question de "
+                                                       "sécurité au cas ou vous oublieriez votre mot de passe)?")
 
             while firstname == "" or lastname == "" or security_question == "":
                 firstname = simpledialog.askstring("Input", "Entrer votre prénom")
                 lastname = simpledialog.askstring("Input", "Entrer votre nom")
                 security_question = simpledialog.askstring("Input",
                                                            "Dans quel ville êtes vous né (cette question sera une question de "
-                                                           "sécurité au cas ou vous oublierez votre mot de passe)?")
+                                                           "sécurité au cas ou vous oublieriez votre mot de passe)?")
             user_app = User.write_names(firstname, lastname, security_question)
 
         if data_json["user"]["password"] == "":
@@ -56,8 +56,3 @@ class Gui:
                     connection_password = question["user"]["password"]
             connection_to_the_program = Account.verify_account(connection_password)
 
-root = tk.Tk()
-
-
-gui = Gui(root)
-root.mainloop()
