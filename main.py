@@ -18,7 +18,7 @@ def save_wallet(data_saving):
         param: none
         return: none
     """
-    with open('data.json', 'w') as file:
+    with open('data/data.json', 'w') as file:
         json.dump(data_saving, file)
 
 
