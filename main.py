@@ -27,7 +27,7 @@ class Gui:
 
         colon = ("username", "password")
         self.treeview = ttk.Treeview(master, columns=colon,
-                                     height=20)  # on peut mettre une hauteur dynamique sur len(json)
+                                     height=20)
         self.treeview.pack(padx=5, pady=5)
 
         self.treeview.heading("#0", text="Site Web")
@@ -43,10 +43,10 @@ class Gui:
         button = ttk.Button(master, text="Editer mot de passe", command=self.edit_record)
         button.pack(padx=5, pady=5, side=tk.RIGHT)
 
-        button = ttk.Button(master, text="Copier le mot de passe", command=self.copy_password)
+        button = ttk.Button(master, text="Copier mot de passe", command=self.copy_password)
         button.pack(padx=5, pady=5, side=tk.RIGHT)
 
-        button = ttk.Button(master, text="Copier l'utilisateur", command=self.copy_user)
+        button = ttk.Button(master, text="Copier utilisateur", command=self.copy_user)
         button.pack(padx=5, pady=5, side=tk.RIGHT)
 
         self.v = tk.IntVar()
@@ -163,5 +163,8 @@ if __name__ == "__main__":
     loguin = LogGuiIn()
     root.destroy()
     root = tk.Tk()
+    root.minsize(750, 700)
+    root.maxsize(750, 700)
+    root.title("Gestionnaire de mot de passe")
     gui = Gui(root)
     root.mainloop()
