@@ -13,28 +13,24 @@ class LogGuiIn:
         with open('connexionId.json', 'r') as user_data:
             data_json = json.load(user_data)
 
-        if data_json["firstname"] == "" or data_json["lastname"] == "" or data_json["question"] == "":
+        firstname = data_json["firstname"]
+        while firstname == "":
             firstname = simpledialog.askstring("Input", "Entrer votre prénom")
+        lastname = data_json["lastname"]
+        while lastname == "":
             lastname = simpledialog.askstring("Input", "Entrer votre nom")
-            security_question = simpledialog.askstring("Input",
-                                                       "Dans quel ville êtes vous né (cette question sera une "
-                                                       " de "
-                                                       "sécurité au cas ou vous oublieriez votre mot de passe)?")
+        security_question = data_json["question"]
+        while security_question == "":
+            security_question = simpledialog.askstring("Input", "Dans quel ville êtes vous né "
+                                                                "(cette question sera une question de "
+                                                                "sécurité au cas ou"
+                                                                " vous oublieriez votre mot de passe)?")
+        User.write_names(firstname, lastname, security_question)
 
-            while firstname == "" or lastname == "" or security_question == "":
-                firstname = simpledialog.askstring("Input", "Entrer votre prénom")
-                lastname = simpledialog.askstring("Input", "Entrer votre nom")
-                security_question = simpledialog.askstring("Input", "Dans quel ville êtes vous né "
-                                                                    "(cette question sera une question de "
-                                                                    "sécurité au cas ou"
-                                                                    " vous oublieriez votre mot de passe)?")
-            User.write_names(firstname, lastname, security_question)
-
-        if data_json["user"]["password"] == "":
+        new_password = ""
+        while new_password == "":
             new_password = simpledialog.askstring("Input", "Veuillez vous créer un mot de passe")
-            while new_password == "":
-                new_password = simpledialog.askstring("Input", "Veuillez vous créer un mot de passe")
-            Account.create_account(new_password)
+        Account.create_account(new_password)
 
         connection_password = simpledialog.askstring("Input",
                                                      "Bienvenue dans votre gestionnaire de "
