@@ -45,6 +45,7 @@ class Account:
         new_password = input(" : ")
         return new_password
 
+    @staticmethod
     def edit_application_password(new_password):
         """
             write the new_password for the application
@@ -60,22 +61,3 @@ class Account:
         with open("connexionId.json", 'w') as writing_pass:
             json.dump(json_dictionnary, writing_pass)
 
-    @staticmethod
-    def new_password():
-        new_password = input(" : ")
-        return new_password
-
-    @staticmethod
-    def edit_application_password(new_password):
-        """
-            write the new_password for the application
-            param:
-                new_password: the new password
-            return: none
-        """
-        with open("connexionId.json", 'r') as file:
-            json_dictionnary = json.load(file)
-
-        json_dictionnary["user"]["password"] = new_password
-        with open("connexionId.json", 'w') as writing_pass:
-            json.dump(json_dictionnary, writing_pass)

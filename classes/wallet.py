@@ -11,13 +11,15 @@ class Wallet:
     @authors: Apostolidis Alex, Gonzalez Shayann, Jacob Thomas
     """
 
-    def __init__(self):
+    def __init__(self, data):
         """
             initiate a list to stock identificators
             param: none
             return: none
         """
         self._wallet = []
+        for i in data:
+            self._wallet.append(i)
 
     @property
     def wallet(self):
@@ -49,6 +51,7 @@ class Wallet:
             if i['site'] == site:
                 i['password'] = new_password"""
         for i in self._wallet:
+
             if i['index'] == int(site):
                 i['password'] = new_password
 
@@ -63,10 +66,10 @@ class Wallet:
         """for i in self._wallet:
             if i['site'] == site:
                 self._wallet.remove(i)"""
+        print(site)
         self._wallet.pop(site)
         for j in range(len(self._wallet)):
             self._wallet[j]['index'] = j + 1
-        self.save_wallet()
 
     def display_wallet(self):
         """
@@ -77,26 +80,26 @@ class Wallet:
         for i in self._wallet:
             print("\n- " + i['site'] + " | identifiant: " + i['id'] + " | mot de passe: " + i['password'] + " \n")
 
-    def save_wallet(self):
-        """
-            save list in a JSON file
-            param: none
-            return: none
-        """
-        with open('data.json', 'w') as file:
-            json.dump(self._wallet, file)
+    #def save_wallet(self):
+    #    """
+    #        save list in a JSON file
+    #        param: none
+    #        return: none
+    #    """
+    #    with open('data.json', 'w') as file:
+    #        json.dump(self._wallet, file)
 
-    def opening_json(self):
-        """
-            allow to open a JSON file and add the list in
-            param:  none
-            return: updated list
-        """
-        with open('data.json') as read:
-            reading = json.load(read)
-        for i in reading:
-            self._wallet.append(i)
-        return self._wallet
+    #def opening_json(self):
+    #    """
+    #        allow to open a JSON file and add the list in
+    #        param:  none
+    #        return: updated list
+    #    """
+    #    with open('data.json') as read:
+    #        reading = json.load(read)
+    #    for i in reading:
+    #        self._wallet.append(i)
+    #    return self._wallet
 
     @staticmethod
     def create_password():
