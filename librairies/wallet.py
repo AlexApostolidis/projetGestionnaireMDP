@@ -55,13 +55,14 @@ class Wallet:
         # for i in self._wallet:
         #    if i['site'] == site:
         #        i['password'] = new_password
-        if type(site) != int:
+        try:
+            if new_password is None or new_password == "":
+                raise (ValueError, "Password is empty")
+            for i in self._wallet:
+                if i['index'] == int(site):
+                    i['password'] = new_password
+        except Exception:
             raise (ValueError, "Index not a integer")
-        if new_password is None or new_password == "":
-            raise (ValueError, "Password is empty")
-        for i in self._wallet:
-            if i['index'] == int(site):
-                i['password'] = new_password
 
     def delete_site_password(self, site):
         """
@@ -74,11 +75,12 @@ class Wallet:
         # for i in self._wallet:
         #    if i['site'] == site:
         #        self._wallet.remove(i)
-        if type(site) != int:
+        try:
+            self._wallet.pop(site)
+            for j in range(len(self._wallet)):
+                self._wallet[j]['index'] = j + 1
+        except Exception:
             raise (ValueError, "Index not a integer")
-        self._wallet.pop(site)
-        for j in range(len(self._wallet)):
-            self._wallet[j]['index'] = j + 1
 
     # def display_wallet(self):
     #    """
