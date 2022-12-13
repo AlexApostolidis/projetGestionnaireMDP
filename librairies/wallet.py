@@ -12,6 +12,8 @@ class Wallet:
             param: none
             return: none
         """
+        if type(data) != list:
+            raise (ValueError, "Data is not a list")
         self._wallet = []
         for i in data:
             self._wallet.append(i)
@@ -32,6 +34,12 @@ class Wallet:
                 new_password: the password for this website
             return: none
         """
+        if new_site is None or new_site == "":
+            raise (ValueError, "Site is empty")
+        if new_password is None or new_password == "":
+            raise (ValueError, "Password is empty")
+        if new_identify is None or new_identify == "":
+            raise (ValueError, "Identify is empty")
         self._wallet.append({'index': len(self._wallet) + 1, 'site': new_site.name, 'id': new_identify.username,
                              'password': new_password.password})
 
@@ -47,6 +55,10 @@ class Wallet:
         # for i in self._wallet:
         #    if i['site'] == site:
         #        i['password'] = new_password
+        if type(site) != int:
+            raise (ValueError, "Index not a integer")
+        if new_password is None or new_password == "":
+            raise (ValueError, "Password is empty")
         for i in self._wallet:
             if i['index'] == int(site):
                 i['password'] = new_password
@@ -62,18 +74,20 @@ class Wallet:
         # for i in self._wallet:
         #    if i['site'] == site:
         #        self._wallet.remove(i)
+        if type(site) != int:
+            raise (ValueError, "Index not a integer")
         self._wallet.pop(site)
         for j in range(len(self._wallet)):
             self._wallet[j]['index'] = j + 1
 
-    def display_wallet(self):
-        """
-            display the overview of the list
-            param: none
-            return: none
-        """
-        for i in self._wallet:
-            print("\n- " + i['site'] + " | identifiant: " + i['id'] + " | mot de passe: " + i['password'] + " \n")
+    # def display_wallet(self):
+    #    """
+    #        display the overview of the list
+    #        param: none
+    #        return: none
+    #    """
+    #    for i in self._wallet:
+    #        print("\n- " + i['site'] + " | identifiant: " + i['id'] + " | mot de passe: " + i['password'] + " \n")
 
     # def save_wallet(self):
     #    """

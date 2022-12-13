@@ -25,18 +25,18 @@ class LogGuiIn:
                                                                 "(cette question sera une question de "
                                                                 "sécurité au cas ou"
                                                                 " vous oublieriez votre mot de passe)?")
-        User.write_names(firstname, lastname, security_question)
+        User(firstname, lastname, security_question)
 
         new_password = data_json["user"]["password"]
         while new_password == "":
             new_password = simpledialog.askstring("Input", "Veuillez vous créer un mot de passe")
-        Account.create_account(new_password)
+        account_password = Account(new_password)
 
         connection_password = simpledialog.askstring("Input",
                                                      "Bienvenue dans votre gestionnaire de "
                                                      "mot de passe ! \nConnectez vous au programme \n")
         # hide password while writing
-        connection_to_the_program = Account.verify_account(connection_password)
+        connection_to_the_program = account_password.verify_account(connection_password)
 
         while not connection_to_the_program:
 
@@ -53,4 +53,4 @@ class LogGuiIn:
                     connection_password = question["user"]["password"]
                 else:
                     connection_password = question["user"]["password"]
-            connection_to_the_program = Account.verify_account(connection_password)
+            connection_to_the_program = account_password.verify_account(connection_password)

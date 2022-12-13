@@ -5,29 +5,34 @@ class Account:
     """
     """
 
-    def __init__(self):
+    def __init__(self, password):
+        if password == "":
+            raise (ValueError, "Password Empty")
+        self._password = password
         with open("data/connexionId.json", 'r') as file:
-            password = json.load(file)
-        self._password = password["user"]["password"]
+            json_dictionnary = json.load(file)
+
+        json_dictionnary["user"]["password"] = self._password
+        with open("data/connexionId.json", 'w') as writing_pass:
+            json.dump(json_dictionnary, writing_pass)
     
     @property
     def password(self):
         return self._password
 
-    @staticmethod
-    def create_account(password):
-        with open("data/connexionId.json", 'r') as file:
-            json_dictionnary = json.load(file)
+    def verify_account(self, password):
+        return self._password == password
 
-        json_dictionnary["user"]["password"] = password
-        with open("data/connexionId.json", 'w') as writing_pass:
-            json.dump(json_dictionnary, writing_pass)
+    # @staticmethod
+    # def create_account(password):
+    #    if password == "":
+    #        raise (ValueError, "password is empty")
+    #    with open("data/connexionId.json", 'r') as file:
+    #        json_dictionnary = json.load(file)
 
-    @staticmethod
-    def verify_account(password):
-        with open("data/connexionId.json") as file:
-            doc = json.load(file)
-        return doc['user']['password'] == password
+    #    json_dictionnary["user"]["password"] = password
+    #    with open("data/connexionId.json", 'w') as writing_pass:
+    #        json.dump(json_dictionnary, writing_pass)
 
     # @staticmethod
     # def renew_password():

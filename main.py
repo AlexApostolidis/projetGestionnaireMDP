@@ -120,6 +120,7 @@ class Gui:
             self.hide_password()
         else:
             messagebox.showerror(title="Erreur", message="Selectionnez une ligne svp")
+            raise (TypeError, "Nothing selected.")
 
     def hide_password(self):
         if self.v.get():
@@ -145,6 +146,7 @@ class Gui:
             pyperclip.copy(wallet.wallet[int(y) - 1]["password"])
         else:
             messagebox.showerror(title="Erreur", message="Selectionnez une ligne svp")
+            raise (TypeError, "Nothing selected.")
 
     def copy_user(self):
         y = self.treeview.focus()
@@ -152,6 +154,7 @@ class Gui:
             pyperclip.copy(wallet.wallet[int(y) - 1]["id"])
         else:
             messagebox.showerror(title="Erreur", message="Selectionnez une ligne svp")
+            raise (TypeError, "Nothing selected.")
 
 
 if __name__ == "__main__":
