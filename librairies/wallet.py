@@ -1,5 +1,6 @@
 import json
 
+
 class Wallet:
     """
     A wallet for all the passwords and identificators
@@ -15,7 +16,7 @@ class Wallet:
             return: none
         """
         if type(data) != list:
-            raise (ValueError, "Data is not a list")
+            raise ValueError("Data is not a list")
         self._wallet = []
         for i in data:
             self._wallet.append(i)
@@ -37,11 +38,11 @@ class Wallet:
             return: none
         """
         if new_site is None or new_site == "":
-            raise (ValueError, "Site is empty")
+            raise ValueError("Site is empty")
         if new_password is None or new_password == "":
-            raise (ValueError, "Password is empty")
+            raise ValueError("Password is empty")
         if new_identify is None or new_identify == "":
-            raise (ValueError, "Identify is empty")
+            raise ValueError("Identify is empty")
         self._wallet.append({'index': len(self._wallet) + 1, 'site': new_site.name, 'id': new_identify.username,
                              'password': new_password.password})
 
@@ -58,13 +59,14 @@ class Wallet:
         #    if i['site'] == site:
         #        i['password'] = new_password
         try:
+            int(site)
             if new_password is None or new_password == "":
-                raise (ValueError, "Password is empty")
+                raise ValueError("Password is empty")
             for i in self._wallet:
                 if i['index'] == int(site):
                     i['password'] = new_password
         except Exception:
-            raise (ValueError, "Index not a integer")
+            raise ValueError("Index not a integer")
 
     def delete_site_password(self, site):
         """
@@ -78,11 +80,12 @@ class Wallet:
         #    if i['site'] == site:
         #        self._wallet.remove(i)
         try:
+            int(site)
             self._wallet.pop(site)
             for j in range(len(self._wallet)):
                 self._wallet[j]['index'] = j + 1
         except Exception:
-            raise (ValueError, "Index not a integer")
+            raise ValueError("Index not a integer")
 
     # def display_wallet(self):
     #    """

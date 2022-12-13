@@ -6,15 +6,9 @@ class Account:
     """
 
     def __init__(self, password):
-        if password == "":
-            raise (ValueError, "Password Empty")
+        if password == "" or password is None:
+            raise ValueError("Password Empty")
         self._password = password
-        with open("data/connexionId.json", 'r') as file:
-            json_dictionnary = json.load(file)
-
-        json_dictionnary["user"]["password"] = self._password
-        with open("data/connexionId.json", 'w') as writing_pass:
-            json.dump(json_dictionnary, writing_pass)
     
     @property
     def password(self):
@@ -63,3 +57,14 @@ class Account:
     #    json_dictionnary["user"]["password"] = new_password
     #    with open("connexionId.json", 'w') as writing_pass:
     #        json.dump(json_dictionnary, writing_pass)
+
+
+def save_account(password):
+    if password is None or password == "":
+        raise ValueError("Password is empty")
+    with open("data/connexionId.json", 'r') as file:
+        json_dictionnary = json.load(file)
+
+    json_dictionnary["user"]["password"] = password
+    with open("data/connexionId.json", 'w') as writing_pass:
+        json.dump(json_dictionnary, writing_pass)

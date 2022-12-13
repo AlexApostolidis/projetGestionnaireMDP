@@ -32,6 +32,7 @@ class LogGuiIn:
         while new_password == "":
             new_password = simpledialog.askstring("Input", "Veuillez vous créer un mot de passe")
         account_password = Account(new_password)
+        save_account(account_password.password)
 
         connection_password = simpledialog.askstring("Input",
                                                      "Bienvenue dans votre gestionnaire de "

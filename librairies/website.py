@@ -4,7 +4,7 @@ class Website:
 
     def __init__(self, name):
         if name is None or name == "":
-            raise (ValueError, "Website is empty")
+            raise ValueError("Website is empty")
         self._name = name 
     
     @property

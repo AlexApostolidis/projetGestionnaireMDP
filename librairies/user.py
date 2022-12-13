@@ -7,11 +7,11 @@ class User:
 
     def __init__(self, first, last, question):
         if first is None or first == "":
-            raise (ValueError, "first is empty")
+            raise ValueError("first is empty")
         if last is None or last == "":
-            raise (ValueError, "last is empty")
+            raise ValueError("last is empty")
         if question is None or question == "":
-            raise (ValueError, "question is empty")
+            raise ValueError("question is empty")
         self._first_name = first
         self._last_name = last
         self._security_question = question
@@ -35,11 +35,11 @@ class User:
 # saving user data in json method
 def write_names(firstname, lastname, question):
     if firstname is None or firstname == "":
-        raise (ValueError, "firstname is empty")
+        raise ValueError("firstname is empty")
     if lastname is None or lastname == "":
-        raise (ValueError, "lastname is empty")
+        raise ValueError("lastname is empty")
     if question is None or question == "":
-        raise (ValueError, "question is empty")
+        raise ValueError("question is empty")
     with open("data/connexionId.json", "r") as user_data:
         data = json.load(user_data)
     data["firstname"] = firstname

@@ -7,3 +7,4 @@ from .user import User
 from .random_passWord import automatic_random_password
 from .user import write_names
 from .wallet import save_wallet
+from .account import save_account

@@ -4,7 +4,7 @@ class Password:
 
     def __init__(self, password):
         if password == "" or password is None:
-            raise (ValueError, "Password is empty")
+            raise ValueError("Password is empty")
         self._password = password
 
     @property
@@ -14,7 +14,7 @@ class Password:
     @staticmethod
     def testing_password(password):
         if password is None or password == "":
-            raise (ValueError, "password is empty")
+            raise ValueError("Password is empty")
         list_password_alpha = list(map(lambda x: x.isalpha(), [*password])).count(True)
         list_password_digit = list(map(lambda x: x.isdigit(), [*password])).count(True)
         list_password_non_alpha = list(map(lambda x: x.isalnum(), [*password])).count(False)
