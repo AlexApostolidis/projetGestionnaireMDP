@@ -32,12 +32,18 @@ class Gui:
         button = ttk.Button(master, text="Editer mot de passe", command=self.edit_record)
         button.pack(padx=5, pady=5, side=tk.RIGHT)
 
+        self.v = tk.IntVar()
+        x = ttk.Checkbutton(master, text="Afficher les mots de passes", variable=self.v, onvalue=1,
+                            offvalue=0, command=self.hide_password)
+        self.v.set(0)
+        x.pack(padx=5, pady=5, side=tk.RIGHT)
+
         """scroll = ttk.Scrollbar(master, orient="vertical", command=self.treeview.yview)
         # scroll.pack(side = 'right', fill = 'y')
 
         self.treeview.configure(yscrollcommand=scroll.set)"""
 
-        self.read_data()
+        self.hide_password()
 
     def read_data(self):
         self.clear_all()
@@ -85,27 +91,49 @@ class Gui:
         wallet.add_new_logs(website_obj, username_obj, password_obj)
         wallet.save_wallet()
         self.clear_all()
-        self.read_data()
+        self.hide_password()
 
     def edit_record(self):
         y = self.treeview.focus()
-        if len(wallet) < 1:
-            messagebox.showerror(title="Erreur", message="Votre fichier est vide")
+        if y:
+            if len(wallet) < 1:
+                messagebox.showerror(title="Erreur", message="Votre fichier est vide")
+            else:
+                password = simpledialog.askstring("Input",
+                                                  "Entrer votre mot de passe (si vous voulez un mot de passe automatique entrer Y")
+
+                if password == "Y":
+                    password = random_passWord.automatic_random_password()
+                password_obj = Password(password)
+                testing_password = password_obj.testing_password(password_obj.password)
+                if testing_password == 0:
+                    messagebox.showwarning(title="Attention", message="Mot de passe faible pensez à changer")
+
+                wallet.edit_site_password(y, password)
+
+                wallet.save_wallet()
+                self.clear_all()
+                self.hide_password()
         else:
-            password = simpledialog.askstring("Input", "Entrer votre mot de passe (si vous voulez un mot de passe automatique entrer Y")
+            messagebox.showerror(title="Erreur", message="Selectionnez une ligne svp")
 
-            if password == "Y":
-                password = random_passWord.automatic_random_password()
-            password_obj = Password(password)
-            testing_password = password_obj.testing_password(password_obj.password)
-            if testing_password == 0:
-                messagebox.showwarning(title="Attention", message="Mot de passe faible pensez à changer")
-
-            wallet.edit_site_password(y, password)
-
-            wallet.save_wallet()
+    def hide_password(self):
+        if self.v.get():
             self.clear_all()
-            self.read_data()
+            file = open("data.json", "r")
+            jjson = json.load(file)
+
+            for line in range(len(jjson)):
+                self.treeview.insert("", tk.END, iid=line + 1, text=jjson[line]["site"],
+                                     values=(jjson[line]["id"], jjson[line]["password"]))
+        else:
+            self.clear_all()
+            file = open("data.json", "r")
+            jjson = json.load(file)
+
+            for line in range(len(jjson)):
+                self.treeview.insert("", tk.END, iid=line + 1, text=jjson[line]["site"],
+                                     values=(jjson[line]["id"], "*********"))
 
 
 root = tk.Tk()
