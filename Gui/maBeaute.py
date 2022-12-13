@@ -65,15 +65,18 @@ class Gui:
 
     def delete_record(self):
         x = self.treeview.focus()
-        if len(wallet) < 1:
-            messagebox.showerror(title="Erreur", message="Votre fichier est vide")
+        if x:
+            if len(wallet) < 1:
+                messagebox.showerror(title="Erreur", message="Votre fichier est vide")
 
-        for record in x:
-            self.treeview.delete(record)
-            wallet.delete_site_password(int(record) - 1)
-            self.clear_all()
-            save_wallet(wallet.wallet)
-            self.hide_password()
+            for record in x:
+                self.treeview.delete(record)
+                wallet.delete_site_password(int(record) - 1)
+                self.clear_all()
+                save_wallet(wallet.wallet)
+                self.hide_password()
+        else:
+            messagebox.showerror(title="Erreur", message="Selectionnez une ligne svp")
 
     def clear_all(self):
         for item in self.treeview.get_children():
@@ -91,7 +94,7 @@ class Gui:
         new_password = simpledialog.askstring("Input", "Entrer votre mot de passe "
                                                        "(si vous voulez un mot de passe automatique entrer Y)")
 
-        if new_password == "Y":
+        if new_password.lower() == "y":
             new_password = random_passWord.automatic_random_password()
         password_obj = Password(new_password)
         testing_password = password_obj.testing_password(password_obj.password)
