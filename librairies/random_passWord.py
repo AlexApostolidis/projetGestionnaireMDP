@@ -2,10 +2,11 @@ import random
 
 
 def automatic_random_password():
-    """
-    generate a random password based on the following data
-    param: none
-    return: a string of random elements
+    """It generates a random password based on datas picked randomly
+
+    PRE: none
+    POST: return a string of 15 characters made of lower cases, upper cases, numbers and non-alphanumeric characters
+          picked randomly
     """
 
     lower_case = "abcdefghijklmnopqrstuvwxyz"
