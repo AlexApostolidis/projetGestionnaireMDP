@@ -30,5 +30,9 @@ class User:
     def last_name(self):
         return self._last_name
 
+    @property
+    def question(self):
+        return self._security_question
+
     def __str__(self):
         return f"Bonjour monsieur{self._last_name} {self._first_name}."
