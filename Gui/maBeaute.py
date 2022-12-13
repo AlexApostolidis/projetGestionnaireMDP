@@ -84,7 +84,11 @@ class Gui:
 
     def add_record(self):
         parent = simpledialog.askstring("Input", "Entrer le nom du site")
+        while parent == "":
+            parent = simpledialog.askstring("Input", "Entrer le nom du site")
         name = simpledialog.askstring("Input", "Entrer nom d'utilisateur")
+        while name == "":
+            name = simpledialog.askstring("Input", "Entrer nom d'utilisateur")
 
         # self.treeview.insert(parent, tk.END, text=name, values=(name, password))
 
@@ -93,6 +97,9 @@ class Gui:
 
         new_password = simpledialog.askstring("Input", "Entrer votre mot de passe "
                                                        "(si vous voulez un mot de passe automatique entrer Y)")
+        while new_password == "":
+            new_password = simpledialog.askstring("Input", "Entrer votre mot de passe "
+                                                           "(si vous voulez un mot de passe automatique entrer Y)")
 
         if new_password.lower() == "y":
             new_password = random_passWord.automatic_random_password()
