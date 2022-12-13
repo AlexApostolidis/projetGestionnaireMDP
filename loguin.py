@@ -8,6 +8,7 @@ class LogGuiIn:
     def __init__(self):
         self.login()
 
+
     @staticmethod
     def login():
         with open('data/connexionId.json', 'r') as user_data:

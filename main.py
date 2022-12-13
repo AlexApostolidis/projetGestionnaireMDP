@@ -1,11 +1,9 @@
-from loguin import *
-import json
 import tkinter as tk
 from tkinter import ttk
-from tkinter import messagebox
-from tkinter import simpledialog
-from librairies import *
+
 import pyperclip
+
+from loguin import *
 
 with open("data/data.json") as data:
     list_json = json.load(data)
@@ -14,6 +12,20 @@ wallet = Wallet(list_json)
 
 class Gui:
     def __init__(self, master):
+        """ used to make a new instance of the Gui class with all the inner-methods
+        pre:
+            :param master will be used as the root
+        post: a new instance of Gui class is initiated
+        external methods: add_record(),delete_record(),edit_record(),copy_password(),copy_user(),hide_password()
+        """
+
+        # Initiating the master settings window size and title
+
+        master.title("Gestionnaire de mot de passe")
+        master.minsize(750, 500)
+        master.maxsize(750, 500)
+
+        # setting the treeview structure
 
         colon = ("username", "password")
         self.treeview = ttk.Treeview(master, columns=colon,
@@ -24,20 +36,22 @@ class Gui:
         self.treeview.heading("username", text="Utilisateur")
         self.treeview.heading("password", text="Mot de passe")
 
-        button = ttk.Button(master, text="Ajouter donnée", command=self.add_record)
-        button.pack(padx=5, pady=5, side=tk.RIGHT)
+        # setting the different buttons and their actions
 
-        button = ttk.Button(master, text="Effacer donnée", command=self.delete_record)
-        button.pack(padx=5, pady=5, side=tk.RIGHT)
+        button1 = ttk.Button(master, text="Ajouter donnée", command=self.add_record)
+        button1.pack(padx=5, pady=5, side=tk.RIGHT)
 
-        button = ttk.Button(master, text="Editer mot de passe", command=self.edit_record)
-        button.pack(padx=5, pady=5, side=tk.RIGHT)
+        button2 = ttk.Button(master, text="Effacer donnée", command=self.delete_record)
+        button2.pack(padx=5, pady=5, side=tk.RIGHT)
 
-        button = ttk.Button(master, text="Copier mot de passe", command=self.copy_password)
-        button.pack(padx=5, pady=5, side=tk.RIGHT)
+        button3 = ttk.Button(master, text="Editer mot de passe", command=self.edit_record)
+        button3.pack(padx=5, pady=5, side=tk.RIGHT)
 
-        button = ttk.Button(master, text="Copier utilisateur", command=self.copy_user)
-        button.pack(padx=5, pady=5, side=tk.RIGHT)
+        button4 = ttk.Button(master, text="Copier mot de passe", command=self.copy_password)
+        button4.pack(padx=5, pady=5, side=tk.RIGHT)
+
+        button5 = ttk.Button(master, text="Copier utilisateur", command=self.copy_user)
+        button5.pack(padx=5, pady=5, side=tk.RIGHT)
 
         self.v = tk.IntVar()
         x = ttk.Checkbutton(master, text="Afficher les mots de passes", variable=self.v, onvalue=1,
@@ -45,13 +59,17 @@ class Gui:
         self.v.set(0)
         x.pack(padx=5, pady=5, side=tk.RIGHT)
 
-        # scroll = ttk.Scrollbar(master, orient="vertical", command=self.treeview.yview)
-        # scroll.pack(side = 'right', fill = 'y')
-        # self.treeview.configure(yscrollcommand=scroll.set)
+        # at the beginning all the password are hided
 
         self.hide_password()
 
     def delete_record(self):
+        """ delete a specified row in the GUI/ json
+        pre: none
+        post: the selected row has been deleted from the GUI and json
+        raise: you must select something by clicking on it to remove it
+        external call: wallet.delete_site_password(),clear_all(), wallet.save_wallet(),hide_password()
+        """
         x = self.treeview.focus()
         if x:
             for record in x:
@@ -62,23 +80,33 @@ class Gui:
                 self.hide_password()
         else:
             messagebox.showerror(title="Erreur", message="Selectionnez une ligne svp")
-            raise(TypeError, "Nothing selected.")
+            raise (TypeError, "Nothing selected.")
 
     def clear_all(self):
+        """empty all the treeview content
+        pre: none
+        post: all the rows in the treeview has been removed
+
+        """
         for item in self.treeview.get_children():
             self.treeview.delete(item)
 
     def add_record(self):
-        parent = ""
-        while parent == "":
-            parent = simpledialog.askstring("Input", "Entrer le nom du site")
+        """ ad a new record
+        pre: none
+        post:add a new row in the treeview and the json
+        external methods:website.Website(),username.Username(),wallet.Wallet.add_new_logs(),wallet.save_wallet(),
+                         clear_all(),hide_password(),ask_auto_password()
+        """
+
+        site = ""
+        while site == "":
+            site = simpledialog.askstring("Input", "Entrer le nom du site")
         name = ""
         while name == "":
             name = simpledialog.askstring("Input", "Entrer nom d'utilisateur")
 
-        # self.treeview.insert(parent, tk.END, text=name, values=(name, password))
-
-        website_obj = Website(parent)
+        website_obj = Website(site)
         username_obj = Username(name)
         password_obj = self.ask_auto_password()
         wallet.add_new_logs(website_obj, username_obj, password_obj)
@@ -88,6 +116,11 @@ class Gui:
 
     @staticmethod
     def ask_auto_password():
+        """ create a new password
+        pre: none
+        post: create a (auto) password
+        external_methods:random_password.automatic_random_password(),password.testing_password()
+        """
         new_password = ""
         while new_password == "":
             new_password = simpledialog.askstring("Input", "Entrer votre mot de passe "
@@ -95,12 +128,19 @@ class Gui:
         if new_password.lower() == "y":
             new_password = random_passWord.automatic_random_password()
         password_obj = Password(new_password)
-        testing_password = password_obj.testing_password(password_obj.password)
+        testing_password = password_obj.testing_password(
+            password_obj.password)  # test the len / 1 letter 1 number and 1 alnum
         if testing_password == 0:
             messagebox.showwarning(title="Attention", message="Mot de passe faible pensez à changer")
         return password_obj
 
     def edit_record(self):
+        """
+        pre: you must have the data/data.json
+        post: the specified line is edited
+        raise: you must select a line to edit
+        external_methods:wallet.Wallet.edit_site_password(),wallet.save_wallet()
+        """
         y = self.treeview.focus()
         if y:
             password_obj = self.ask_auto_password()
@@ -113,6 +153,11 @@ class Gui:
             raise (TypeError, "Nothing selected.")
 
     def hide_password(self):
+        """
+        pre:
+            you must have the data/data.json
+        post: all the password will be shown as *********
+        """
         if self.v.get():
             self.clear_all()
             with open("data/data.json", "r") as file:
@@ -131,6 +176,11 @@ class Gui:
                                      values=(jjson[line]["id"], "*********"))
 
     def copy_password(self):
+        """
+        pre: you must import pyperclip
+        post: the selected password will be copied in your clipboard
+        raise: you must select a row before copying
+        """
         y = self.treeview.focus()
         if y:
             pyperclip.copy(wallet.wallet[int(y) - 1]["password"])
@@ -139,6 +189,11 @@ class Gui:
             raise (TypeError, "Nothing selected.")
 
     def copy_user(self):
+        """
+        pre:you must import pyperclip
+        post: the selected user  will be copied in your clipboard
+        raise: you must select a row before copying
+        """
         y = self.treeview.focus()
         if y:
             pyperclip.copy(wallet.wallet[int(y) - 1]["id"])
@@ -153,8 +208,5 @@ if __name__ == "__main__":
     loguin = LogGuiIn()
     root.destroy()
     root = tk.Tk()
-    root.minsize(750, 500)
-    root.maxsize(750, 500)
-    root.title("Gestionnaire de mot de passe")
     gui = Gui(root)
     root.mainloop()
