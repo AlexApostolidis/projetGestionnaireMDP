@@ -20,9 +20,8 @@ class Wallet:
         self._wallet = []
 
     @property
-    # getter method
-    def __str__(self):
-        return str(self._wallet)
+    def wallet(self):
+        return self._wallet
 
     def add_new_logs(self, new_site, new_identify, new_password):
         """

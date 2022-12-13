@@ -6,6 +6,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from tkinter import simpledialog
 from classes import *
+import pyperclip
 
 wallet = Wallet()
 data = wallet.opening_json()
@@ -30,6 +31,12 @@ class Gui:
         button.pack(padx=5, pady=5, side=tk.RIGHT)
 
         button = ttk.Button(master, text="Editer mot de passe", command=self.edit_record)
+        button.pack(padx=5, pady=5, side=tk.RIGHT)
+
+        button = ttk.Button(master, text="Copier le mot de passe", command=self.copy_password)
+        button.pack(padx=5, pady=5, side=tk.RIGHT)
+
+        button = ttk.Button(master, text="Copier l'utilisateur", command=self.copy_user)
         button.pack(padx=5, pady=5, side=tk.RIGHT)
 
         self.v = tk.IntVar()
@@ -63,7 +70,7 @@ class Gui:
             self.treeview.delete(record)
             wallet.delete_site_password(int(record) - 1)
             self.clear_all()
-            self.read_data()
+            self.hide_password()
 
     def clear_all(self):
         for item in self.treeview.get_children():
@@ -135,13 +142,30 @@ class Gui:
                 self.treeview.insert("", tk.END, iid=line + 1, text=jjson[line]["site"],
                                      values=(jjson[line]["id"], "*********"))
 
+    def copy_password(self):
+        y = self.treeview.focus()
+        if y:
 
-root = tk.Tk()
+            pyperclip.copy(wallet.wallet[int(y)-1]["password"])
+        else:
+            messagebox.showerror(title="Erreur", message="Selectionnez une ligne svp")
 
-root.title("Gestionnaire de mot de passe")
-loguin = Loguin(root)
-root.destroy()
-root = tk.Tk()
-gui = Gui(root)
+    def copy_user(self):
+        y = self.treeview.focus()
+        if y:
 
-root.mainloop()
+            pyperclip.copy(wallet.wallet[int(y)-1]["id"])
+        else:
+            messagebox.showerror(title="Erreur", message="Selectionnez une ligne svp")
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+
+    root.title("Gestionnaire de mot de passe")
+    loguin = Loguin(root)
+    root.destroy()
+    root = tk.Tk()
+    gui = Gui(root)
+
+    root.mainloop()
