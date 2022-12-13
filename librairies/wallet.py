@@ -1,4 +1,5 @@
 import json
+import librairies
 
 
 class Wallet:
@@ -43,17 +44,17 @@ class Wallet:
         """Adding a dictionary with one website, one username and one password
 
         PRE:
-            :param new_site: can't be None or empty, it's a website
-            :param new_identify: can't be None or empty, it's the username of the website
-            :param new_password: can't be None or empty,  it's the password of the username
+            :param new_site: is instance of the class Website, it's a website
+            :param new_identify: is instance of Username class, it's the username of the website
+            :param new_password: is instance of Password class,  it's the password of the username
         POST: It adds a new dictionary to wallet with an index, a website, a username and a password
         """
-        if new_site is None or new_site == "":
-            raise ValueError("Site is empty")
-        if new_password is None or new_password == "":
-            raise ValueError("Password is empty")
-        if new_identify is None or new_identify == "":
-            raise ValueError("Identify is empty")
+        if isinstance(new_site, librairies.Website):
+            raise ValueError("Site is not a Website object")
+        if isinstance(new_password, librairies.Password):
+            raise ValueError("Password is not a Password object")
+        if isinstance(new_identify, librairies.Username):
+            raise ValueError("Identify is not a Username object")
         self._wallet.append({'index': len(self._wallet) + 1, 'site': new_site.name, 'id': new_identify.username,
                              'password': new_password.password})
 
