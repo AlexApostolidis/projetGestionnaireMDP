@@ -1,6 +1,3 @@
-import random_passWord
-
-
 class Wallet:
     """
     A wallet for all the passwords and identificators
@@ -19,6 +16,9 @@ class Wallet:
         for i in data:
             self._wallet.append(i)
 
+    def __len__(self):
+        return len(self._wallet)
+
     @property
     def wallet(self):
         return self._wallet
@@ -32,7 +32,6 @@ class Wallet:
                 new_password: the password for this website
             return: none
         """
-
         self._wallet.append({'index': len(self._wallet) + 1, 'site': new_site.name, 'id': new_identify.username,
                              'password': new_password.password})
 
@@ -45,11 +44,10 @@ class Wallet:
             return: none
         """
         # console version
-        """for i in self._wallet:
-            if i['site'] == site:
-                i['password'] = new_password"""
+        # for i in self._wallet:
+        #    if i['site'] == site:
+        #        i['password'] = new_password
         for i in self._wallet:
-
             if i['index'] == int(site):
                 i['password'] = new_password
 
@@ -61,10 +59,9 @@ class Wallet:
             return: none
         """
         # console version
-        """for i in self._wallet:
-            if i['site'] == site:
-                self._wallet.remove(i)"""
-        print(site)
+        # for i in self._wallet:
+        #    if i['site'] == site:
+        #        self._wallet.remove(i)
         self._wallet.pop(site)
         for j in range(len(self._wallet)):
             self._wallet[j]['index'] = j + 1
@@ -99,19 +96,16 @@ class Wallet:
     #        self._wallet.append(i)
     #    return self._wallet
 
-    @staticmethod
-    def create_password():
-        """
-           create a new password (automatic or not)
-           param: none
-           return: string the new password
-        """
-        ask_auto_password = input('Voulez vous un mot de passe généré automatiquement ? oui/non ').lower()
-        if ask_auto_password == "non":
-            next_password = input('entrez le nouveau mot de passe: ')
-            return next_password
-        next_password = random_passWord.automatic_random_password()
-        return next_password
-
-    def __len__(self):
-        return len(self._wallet)
+    # @staticmethod
+    # def create_password():
+    #    """
+    #       create a new password (automatic or not)
+    #       param: none
+    #       return: string the new password
+    #    """
+    #    ask_auto_password = input('Voulez vous un mot de passe généré automatiquement ? oui/non ').lower()
+    #    if ask_auto_password == "non":
+    #        next_password = input('entrez le nouveau mot de passe: ')
+    #        return next_password
+    #    next_password = random_passWord.automatic_random_password()
+    #    return next_password
