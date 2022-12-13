@@ -1,5 +1,3 @@
-import json
-
 import random_passWord
 
 
@@ -80,7 +78,7 @@ class Wallet:
         for i in self._wallet:
             print("\n- " + i['site'] + " | identifiant: " + i['id'] + " | mot de passe: " + i['password'] + " \n")
 
-    #def save_wallet(self):
+    # def save_wallet(self):
     #    """
     #        save list in a JSON file
     #        param: none
@@ -89,7 +87,7 @@ class Wallet:
     #    with open('data.json', 'w') as file:
     #        json.dump(self._wallet, file)
 
-    #def opening_json(self):
+    # def opening_json(self):
     #    """
     #        allow to open a JSON file and add the list in
     #        param:  none

@@ -56,19 +56,15 @@ class Gui:
         self.v.set(0)
         x.pack(padx=5, pady=5, side=tk.RIGHT)
 
-        """scroll = ttk.Scrollbar(master, orient="vertical", command=self.treeview.yview)
+        # scroll = ttk.Scrollbar(master, orient="vertical", command=self.treeview.yview)
         # scroll.pack(side = 'right', fill = 'y')
-
-        self.treeview.configure(yscrollcommand=scroll.set)"""
+        # self.treeview.configure(yscrollcommand=scroll.set)
 
         self.hide_password()
 
     def delete_record(self):
         x = self.treeview.focus()
         if x:
-            if len(wallet) < 1:
-                messagebox.showerror(title="Erreur", message="Votre fichier est vide")
-
             for record in x:
                 self.treeview.delete(record)
                 wallet.delete_site_password(int(record) - 1)
@@ -77,16 +73,17 @@ class Gui:
                 self.hide_password()
         else:
             messagebox.showerror(title="Erreur", message="Selectionnez une ligne svp")
+            raise(TypeError, "Nothing selected.")
 
     def clear_all(self):
         for item in self.treeview.get_children():
             self.treeview.delete(item)
 
     def add_record(self):
-        parent = simpledialog.askstring("Input", "Entrer le nom du site")
+        parent = ""
         while parent == "":
             parent = simpledialog.askstring("Input", "Entrer le nom du site")
-        name = simpledialog.askstring("Input", "Entrer nom d'utilisateur")
+        name = ""
         while name == "":
             name = simpledialog.askstring("Input", "Entrer nom d'utilisateur")
 
@@ -94,60 +91,50 @@ class Gui:
 
         website_obj = Website(parent)
         username_obj = Username(name)
+        password_obj = self.ask_auto_password()
+        wallet.add_new_logs(website_obj, username_obj, password_obj)
+        save_wallet(wallet.wallet)
+        self.clear_all()
+        self.hide_password()
 
-        new_password = simpledialog.askstring("Input", "Entrer votre mot de passe "
-                                                       "(si vous voulez un mot de passe automatique entrer Y)")
+    @staticmethod
+    def ask_auto_password():
+        new_password = ""
         while new_password == "":
             new_password = simpledialog.askstring("Input", "Entrer votre mot de passe "
                                                            "(si vous voulez un mot de passe automatique entrer Y)")
-
         if new_password.lower() == "y":
             new_password = random_passWord.automatic_random_password()
         password_obj = Password(new_password)
         testing_password = password_obj.testing_password(password_obj.password)
         if testing_password == 0:
             messagebox.showwarning(title="Attention", message="Mot de passe faible pensez à changer")
-
-        wallet.add_new_logs(website_obj, username_obj, password_obj)
-        save_wallet(wallet.wallet)
-        self.clear_all()
-        self.hide_password()
+        return password_obj
 
     def edit_record(self):
         y = self.treeview.focus()
         if y:
-            if len(wallet) < 1:
-                messagebox.showerror(title="Erreur", message="Votre fichier est vide")
-            else:
-                new_password = simpledialog.askstring("Input", "Entrer votre mot de passe "
-                                                               "(si vous voulez un mot de passe automatique entrer Y")
-                if new_password.lower() == "y":
-                    new_password = random_passWord.automatic_random_password()
-                password_obj = Password(new_password)
-                testing_password = password_obj.testing_password(password_obj.password)
-                if testing_password == 0:
-                    messagebox.showwarning(title="Attention", message="Mot de passe faible pensez à changer")
-                wallet.edit_site_password(y, password_obj.password)
-
-                save_wallet(wallet.wallet)
-                self.clear_all()
-                self.hide_password()
+            password_obj = self.ask_auto_password()
+            wallet.edit_site_password(y, password_obj.password)
+            save_wallet(wallet.wallet)
+            self.clear_all()
+            self.hide_password()
         else:
             messagebox.showerror(title="Erreur", message="Selectionnez une ligne svp")
 
     def hide_password(self):
         if self.v.get():
             self.clear_all()
-            file = open("data.json", "r")
-            jjson = json.load(file)
+            with open("data.json", "r") as file:
+                jjson = json.load(file)
 
             for line in range(len(jjson)):
                 self.treeview.insert("", tk.END, iid=str(line + 1), text=jjson[line]["site"],
                                      values=(jjson[line]["id"], jjson[line]["password"]))
         else:
             self.clear_all()
-            file = open("data.json", "r")
-            jjson = json.load(file)
+            with open("data.json", "r") as file:
+                jjson = json.load(file)
 
             for line in range(len(jjson)):
                 self.treeview.insert("", tk.END, iid=str(line + 1), text=jjson[line]["site"],
@@ -156,7 +143,6 @@ class Gui:
     def copy_password(self):
         y = self.treeview.focus()
         if y:
-
             pyperclip.copy(wallet.wallet[int(y) - 1]["password"])
         else:
             messagebox.showerror(title="Erreur", message="Selectionnez une ligne svp")
@@ -164,7 +150,6 @@ class Gui:
     def copy_user(self):
         y = self.treeview.focus()
         if y:
-
             pyperclip.copy(wallet.wallet[int(y) - 1]["id"])
         else:
             messagebox.showerror(title="Erreur", message="Selectionnez une ligne svp")
@@ -172,11 +157,9 @@ class Gui:
 
 if __name__ == "__main__":
     root = tk.Tk()
-
     root.title("Gestionnaire de mot de passe")
     loguin = LogGuiIn()
     root.destroy()
     root = tk.Tk()
     gui = Gui(root)
-
     root.mainloop()
