@@ -27,7 +27,7 @@ class LogGuiIn:
                                                                 " vous oublieriez votre mot de passe)?")
         User.write_names(firstname, lastname, security_question)
 
-        new_password = ""
+        new_password = data_json["user"]["password"]
         while new_password == "":
             new_password = simpledialog.askstring("Input", "Veuillez vous créer un mot de passe")
         Account.create_account(new_password)
