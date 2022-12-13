@@ -4,5 +4,4 @@ from .password import Password
 from .username import Username
 from .account import Account
 from .user import User
-
-
+from .random_passWord import automatic_random_password

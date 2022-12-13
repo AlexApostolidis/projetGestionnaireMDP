@@ -1,123 +1,164 @@
-#! /usr/bin/env python3
-# import
+from loguin import *
 import json
-import random_passWord
-import maskpass
-from classes import Account
-from classes import Password
-from classes import User
-from classes import Username
-from classes import Wallet
-from classes import Website
+import tkinter as tk
+from tkinter import ttk
+from tkinter import messagebox
+from tkinter import simpledialog
+from librairies import *
+import pyperclip
 
-# main
-if __name__ == '__main__':
+with open("data.json") as data:
+    list_json = json.load(data)
+wallet = Wallet(list_json)
 
-    with open('connexionId.json', 'r') as user_data:
-        data_json = json.load(user_data)
 
-    if data_json["firstname"] == "" or data_json["lastname"] == "" or data_json["question"] == "":
-        print('Bonjour veuillez indiquer votre nom et prénom')
-        firstname = input("Quelle est votre prénom : ")
-        lastname = input("Quelle est votre nom : ")
-        security_question = input("Dans quel ville êtes vous née (cette question sera une question de "
-                                  "sécurité au cas ou vous oublierez votre mot de passe)?")
-        while firstname == "" or lastname == "" or security_question == "":
-            firstname = input("Quelle est votre prénom : ")
-            lastname = input("Quelle est votre nom : ")
-            security_question = input("Dans quel ville êtes vous née (cette question sera une question de "
-                                      "sécurité au cas ou vous oublierez votre mot de passe)?")
-        user_app = User.write_names(firstname, lastname, security_question)
+def save_wallet(data_saving):
+    """
+        save list in a JSON file
+        param: none
+        return: none
+    """
+    with open('data.json', 'w') as file:
+        json.dump(data_saving, file)
 
-    if data_json["user"]["password"] == "":
-        print("Veuillez vous créer un mot de passe")
-        new_password = input(" => ")
+
+class Gui:
+    def __init__(self, master):
+
+        colon = ("username", "password")
+        self.treeview = ttk.Treeview(master, columns=colon,
+                                     height=20)  # on peut mettre une hauteur dynamique sur len(json)
+        self.treeview.pack(padx=5, pady=5)
+
+        self.treeview.heading("#0", text="Site Web")
+        self.treeview.heading("username", text="Utilisateur")
+        self.treeview.heading("password", text="Mot de passe")
+
+        button = ttk.Button(master, text="Ajouter donnée", command=self.add_record)
+        button.pack(padx=5, pady=5, side=tk.RIGHT)
+
+        button = ttk.Button(master, text="Effacer donnée", command=self.delete_record)
+        button.pack(padx=5, pady=5, side=tk.RIGHT)
+
+        button = ttk.Button(master, text="Editer mot de passe", command=self.edit_record)
+        button.pack(padx=5, pady=5, side=tk.RIGHT)
+
+        button = ttk.Button(master, text="Copier le mot de passe", command=self.copy_password)
+        button.pack(padx=5, pady=5, side=tk.RIGHT)
+
+        button = ttk.Button(master, text="Copier l'utilisateur", command=self.copy_user)
+        button.pack(padx=5, pady=5, side=tk.RIGHT)
+
+        self.v = tk.IntVar()
+        x = ttk.Checkbutton(master, text="Afficher les mots de passes", variable=self.v, onvalue=1,
+                            offvalue=0, command=self.hide_password)
+        self.v.set(0)
+        x.pack(padx=5, pady=5, side=tk.RIGHT)
+
+        # scroll = ttk.Scrollbar(master, orient="vertical", command=self.treeview.yview)
+        # scroll.pack(side = 'right', fill = 'y')
+        # self.treeview.configure(yscrollcommand=scroll.set)
+
+        self.hide_password()
+
+    def delete_record(self):
+        x = self.treeview.focus()
+        if x:
+            for record in x:
+                self.treeview.delete(record)
+                wallet.delete_site_password(int(record) - 1)
+                self.clear_all()
+                save_wallet(wallet.wallet)
+                self.hide_password()
+        else:
+            messagebox.showerror(title="Erreur", message="Selectionnez une ligne svp")
+            raise(TypeError, "Nothing selected.")
+
+    def clear_all(self):
+        for item in self.treeview.get_children():
+            self.treeview.delete(item)
+
+    def add_record(self):
+        parent = ""
+        while parent == "":
+            parent = simpledialog.askstring("Input", "Entrer le nom du site")
+        name = ""
+        while name == "":
+            name = simpledialog.askstring("Input", "Entrer nom d'utilisateur")
+
+        # self.treeview.insert(parent, tk.END, text=name, values=(name, password))
+
+        website_obj = Website(parent)
+        username_obj = Username(name)
+        password_obj = self.ask_auto_password()
+        wallet.add_new_logs(website_obj, username_obj, password_obj)
+        save_wallet(wallet.wallet)
+        self.clear_all()
+        self.hide_password()
+
+    @staticmethod
+    def ask_auto_password():
+        new_password = ""
         while new_password == "":
-            print("Veuillez vous créer un mot de passe")
-            new_password = input(" => ")
-        Account.create_account(new_password)
+            new_password = simpledialog.askstring("Input", "Entrer votre mot de passe "
+                                                           "(si vous voulez un mot de passe automatique entrer Y)")
+        if new_password.lower() == "y":
+            new_password = librairies.random_passWord.automatic_random_password()
+        password_obj = Password(new_password)
+        testing_password = password_obj.testing_password(password_obj.password)
+        if testing_password == 0:
+            messagebox.showwarning(title="Attention", message="Mot de passe faible pensez à changer")
+        return password_obj
 
-    print("Bienvenue dans votre gestionnaire de mot de passe ! \nConnectez vous au programme :)\n")
-    connection_password = maskpass.askpass(prompt='Mot de passe: ', mask='*')  # hide password while writing
-    connection_to_the_program = Account.verify_account(connection_password)
+    def edit_record(self):
+        y = self.treeview.focus()
+        if y:
+            password_obj = self.ask_auto_password()
+            wallet.edit_site_password(y, password_obj.password)
+            save_wallet(wallet.wallet)
+            self.clear_all()
+            self.hide_password()
+        else:
+            messagebox.showerror(title="Erreur", message="Selectionnez une ligne svp")
 
-    while not connection_to_the_program:
+    def hide_password(self):
+        if self.v.get():
+            self.clear_all()
+            with open("data.json", "r") as file:
+                jjson = json.load(file)
 
-        print("Mot de passe incorrecte. Veuillez réssayer, si vous avez oublié votre mot de passe taper 'oubli'.\n")
-        connection_password = maskpass.askpass(prompt='Mot de passe: ', mask='*') # hide password while writing
-        if connection_password == "oubli":
-            connection_password = maskpass.askpass(prompt='Dans quelle ville êtes vous née ? ', mask='*') # hide city while writing
-            with open("connexionId.json") as verify_question:
-                question = json.load(verify_question)
-            if question["question"] != connection_password:
-                while question["question"] != connection_password:
-                    print("Mauvaise réponse")
-                    connection_password = maskpass.askpass(prompt='Dans quelle ville êtes vous née ? ', mask='*') # hide city while writing 
-                connection_password = question["user"]["password"]
-            else:
-                connection_password = question["user"]["password"]
-        connection_to_the_program = Account.verify_account(connection_password)
+            for line in range(len(jjson)):
+                self.treeview.insert("", tk.END, iid=str(line + 1), text=jjson[line]["site"],
+                                     values=(jjson[line]["id"], jjson[line]["password"]))
+        else:
+            self.clear_all()
+            with open("data.json", "r") as file:
+                jjson = json.load(file)
 
-    if connection_to_the_program:
+            for line in range(len(jjson)):
+                self.treeview.insert("", tk.END, iid=str(line + 1), text=jjson[line]["site"],
+                                     values=(jjson[line]["id"], "*********"))
 
-        wallet = Wallet()
-        data = wallet.opening_json()
-        condition = True
+    def copy_password(self):
+        y = self.treeview.focus()
+        if y:
+            pyperclip.copy(wallet.wallet[int(y) - 1]["password"])
+        else:
+            messagebox.showerror(title="Erreur", message="Selectionnez une ligne svp")
 
-        while condition:
+    def copy_user(self):
+        y = self.treeview.focus()
+        if y:
+            pyperclip.copy(wallet.wallet[int(y) - 1]["id"])
+        else:
+            messagebox.showerror(title="Erreur", message="Selectionnez une ligne svp")
 
-            question = input('\nQue voulez vous faire ?\n'
-                             'Taper "nouveau" pour pouvoir ajouter un mot de passe\n'
-                             'Taper "supprimer" pour supprimer un mot de passe\n'
-                             'Taper "modifier" pour modifier un mot de passe \n'
-                             'Taper "afficher" pour afficher un mot de passe \n'
-                             'Taper "enregistrer" pour enregistrer et fermer le programme\n'
-                             'Taper "MDP appli" pour changer le mot de passe de l application\n'
-                             'Taper "fin" pour fermer le programme \n=>')
 
-            match question:
-
-                case "nouveau":
-                    site = input('Entrez un nouveau site: ')
-                    website_obj = Website(site)
-                    identify = input('Entrez votre identifiant: ')
-                    username_obj = Username(identify)
-                    password = input('Voulez vous un mot de passe généré automatiquement ? oui/non ')
-
-                    if password == "non":
-                        password = input('Entrez votre mot de passe: ')
-                        password_obj = Password(password)
-                    else:
-                        password = random_passWord.automatic_random_password()
-                        password_obj = Password(password)
-
-                    wallet.add_new_logs(website_obj, username_obj, password_obj)
-                    print(f'\n---------- Le mot de passe du site "{site}" a bien été ajouté ----------\n')
-                    print(f"- {site} | identifiant: {identify} | password: {password}\n")
-
-                case "supprimer":
-                    delete = input('Quelle mot de passe voulez vous supprimer ? Entrez le site en question ')
-                    print(f'\n---------- Le mot de passe du site "{delete}" a bien été supprimé ----------\n')
-                    wallet.delete_site_password(delete)
-
-                case "modifier":
-                    site = input('Quel mot de passe voulez vous modifier ? Entrez le site en question ')
-                    password = wallet.create_password()
-                    print(f'\n---------- Le mot de passe du site "{site}" a bien été modifié ----------\n')
-                    wallet.edit_site_password(site, password)
-
-                case "enregistrer":
-                    wallet.save_wallet()
-                    print('\n---------- Vos mots de passe ont bien été enregistrés ----------')
-
-                case "afficher":
-                    wallet.display_wallet()
-
-                case "MDP appli":
-                    print('Choisissez un nouveau mot de passe pour votre application')
-                    application_password = Account.new_password()
-                    print("\n---------- Le mot de passe de l'application à bien été modifié ----------")
-                    Account.edit_application_password(application_password)
-
-                case "fin":
-                    condition = False
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.title("Gestionnaire de mot de passe")
+    loguin = LogGuiIn()
+    root.destroy()
+    root = tk.Tk()
+    gui = Gui(root)
+    root.mainloop()

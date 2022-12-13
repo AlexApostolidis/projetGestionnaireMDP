@@ -1,7 +1,7 @@
 import json
 from tkinter import messagebox
 from tkinter import simpledialog
-from classes import *
+from librairies import *
 
 
 class LogGuiIn:
