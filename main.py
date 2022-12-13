@@ -7,7 +7,7 @@ from tkinter import simpledialog
 from librairies import *
 import pyperclip
 
-with open("data.json") as data:
+with open("data/data.json") as data:
     list_json = json.load(data)
 wallet = Wallet(list_json)
 
@@ -103,7 +103,7 @@ class Gui:
             new_password = simpledialog.askstring("Input", "Entrer votre mot de passe "
                                                            "(si vous voulez un mot de passe automatique entrer Y)")
         if new_password.lower() == "y":
-            new_password = librairies.random_passWord.automatic_random_password()
+            new_password = random_passWord.automatic_random_password()
         password_obj = Password(new_password)
         testing_password = password_obj.testing_password(password_obj.password)
         if testing_password == 0:
@@ -124,7 +124,7 @@ class Gui:
     def hide_password(self):
         if self.v.get():
             self.clear_all()
-            with open("data.json", "r") as file:
+            with open("data/data.json", "r") as file:
                 jjson = json.load(file)
 
             for line in range(len(jjson)):
@@ -132,7 +132,7 @@ class Gui:
                                      values=(jjson[line]["id"], jjson[line]["password"]))
         else:
             self.clear_all()
-            with open("data.json", "r") as file:
+            with open("data/data.json", "r") as file:
                 jjson = json.load(file)
 
             for line in range(len(jjson)):

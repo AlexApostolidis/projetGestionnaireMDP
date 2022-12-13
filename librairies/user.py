@@ -6,7 +6,7 @@ class User:
     """
 
     def __init__(self):
-        with open("connexionId.json", "r") as user_data:
+        with open("data/connexionId.json", "r") as user_data:
             data = json.load(user_data)
         self._first_name = data["firstname"]
         self._last_name = data["lastname"]
@@ -14,12 +14,12 @@ class User:
 
     @staticmethod
     def write_names(firstname, lastname, question):
-        with open("connexionId.json", "r") as user_data:
+        with open("data/connexionId.json", "r") as user_data:
             data = json.load(user_data)
         data["firstname"] = firstname
         data["lastname"] = lastname
         data["question"] = question
-        with open("connexionId.json", "w") as user_data:
+        with open("data/connexionId.json", "w") as user_data:
             json.dump(data, user_data)
 
     @property
