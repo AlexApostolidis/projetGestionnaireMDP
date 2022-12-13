@@ -25,7 +25,8 @@ class LogGuiIn:
                                                                 "(cette question sera une question de "
                                                                 "sécurité au cas ou"
                                                                 " vous oublieriez votre mot de passe)?")
-        User(firstname, lastname, security_question)
+        user_data = User(firstname, lastname, security_question)
+        write_names(user_data.first_name, user_data.last_name, user_data.question)
 
         new_password = data_json["user"]["password"]
         while new_password == "":

@@ -15,7 +15,6 @@ class User:
         self._first_name = first
         self._last_name = last
         self._security_question = question
-        self.write_names(self._first_name, self._last_name, self._security_question)
 
     def __str__(self):
         return f"Bonjour monsieur{self._last_name} {self._first_name}."
@@ -32,18 +31,19 @@ class User:
     def question(self):
         return self._security_question
 
-    @staticmethod
-    def write_names(firstname, lastname, question):
-        if firstname is None or firstname == "":
-            raise (ValueError, "firstname is empty")
-        if lastname is None or lastname == "":
-            raise (ValueError, "lastname is empty")
-        if question is None or question == "":
-            raise (ValueError, "question is empty")
-        with open("data/connexionId.json", "r") as user_data:
-            data = json.load(user_data)
-        data["firstname"] = firstname
-        data["lastname"] = lastname
-        data["question"] = question
-        with open("data/connexionId.json", "w") as user_data:
-            json.dump(data, user_data)
+
+# saving user data in json method
+def write_names(firstname, lastname, question):
+    if firstname is None or firstname == "":
+        raise (ValueError, "firstname is empty")
+    if lastname is None or lastname == "":
+        raise (ValueError, "lastname is empty")
+    if question is None or question == "":
+        raise (ValueError, "question is empty")
+    with open("data/connexionId.json", "r") as user_data:
+        data = json.load(user_data)
+    data["firstname"] = firstname
+    data["lastname"] = lastname
+    data["question"] = question
+    with open("data/connexionId.json", "w") as user_data:
+        json.dump(data, user_data)

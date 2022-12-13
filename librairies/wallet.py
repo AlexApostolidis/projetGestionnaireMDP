@@ -1,3 +1,5 @@
+import json
+
 class Wallet:
     """
     A wallet for all the passwords and identificators
@@ -125,3 +127,14 @@ class Wallet:
     #        return next_password
     #    next_password = random_passWord.automatic_random_password()
     #    return next_password
+
+
+# Saving the wallet in json method
+def save_wallet(data_saving):
+    """
+        save list in a JSON file
+        param: none
+        return: none
+    """
+    with open('data/data.json', 'w') as file:
+        json.dump(data_saving, file)

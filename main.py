@@ -12,16 +12,6 @@ with open("data/data.json") as data:
 wallet = Wallet(list_json)
 
 
-def save_wallet(data_saving):
-    """
-        save list in a JSON file
-        param: none
-        return: none
-    """
-    with open('data/data.json', 'w') as file:
-        json.dump(data_saving, file)
-
-
 class Gui:
     def __init__(self, master):
 

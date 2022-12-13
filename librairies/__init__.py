@@ -5,3 +5,5 @@ from .username import Username
 from .account import Account
 from .user import User
 from .random_passWord import automatic_random_password
+from .user import write_names
+from .wallet import save_wallet
