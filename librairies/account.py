@@ -27,6 +27,8 @@ class Account:
              It can be of any type except being empty or 'none'
         POST: return the password given to connect yourself to the program
         """
+        if password == "" or password is None:
+            raise ValueError("Password is empty")
         return self._password == password
 
     # @staticmethod
