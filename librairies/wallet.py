@@ -49,11 +49,11 @@ class Wallet:
             :param new_password: is instance of Password class,  it's the password of the username
         POST: It adds a new dictionary to wallet with an index, a website, a username and a password
         """
-        if isinstance(new_site, librairies.Website):
+        if not isinstance(new_site, librairies.Website):
             raise ValueError("Site is not a Website object")
-        if isinstance(new_password, librairies.Password):
+        if not isinstance(new_password, librairies.Password):
             raise ValueError("Password is not a Password object")
-        if isinstance(new_identify, librairies.Username):
+        if not isinstance(new_identify, librairies.Username):
             raise ValueError("Identify is not a Username object")
         self._wallet.append({'index': len(self._wallet) + 1, 'site': new_site.name, 'id': new_identify.username,
                              'password': new_password.password})
@@ -63,16 +63,15 @@ class Wallet:
 
         PRE :
              :param site: it's an integer, and it's the index of the password you need to edit
-             :param new_password:  can't be None or empty
+             :param new_password:  is instance of Password class, it's the new password
         POST : The password from the wallet changed with the new password
         """
         try:
-            int(site)
-            if new_password is None or new_password == "":
-                raise ValueError("Password is empty")
+            if not isinstance(new_password, librairies.Password):
+                raise ValueError("password is not Password object")
             for i in self._wallet:
                 if i['index'] == int(site):
-                    i['password'] = new_password
+                    i['password'] = new_password.password
         except Exception:
             raise ValueError("Index not a integer")
 
@@ -84,7 +83,6 @@ class Wallet:
         POST : The dictionary with the index is deleted
         """
         try:
-            int(site)
             self._wallet.pop(site)
             for j in range(len(self._wallet)):
                 self._wallet[j]['index'] = j + 1

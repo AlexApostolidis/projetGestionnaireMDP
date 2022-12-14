@@ -144,7 +144,7 @@ class Gui:
         y = self.treeview.focus()
         if y:
             password_obj = self.ask_auto_password()
-            wallet.edit_site_password(y, password_obj.password)
+            wallet.edit_site_password(y, password_obj)
             save_wallet(wallet.wallet)
             self.clear_all()
             self.hide_password()
