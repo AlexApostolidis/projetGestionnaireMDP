@@ -89,3 +89,5 @@ def save_account(password):
     json_dictionary["user"]["password"] = password
     with open("data/connexionId.json", 'w') as writing_pass:
         json.dump(json_dictionary, writing_pass)
+
+
